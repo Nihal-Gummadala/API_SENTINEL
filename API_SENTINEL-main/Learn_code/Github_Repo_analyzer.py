@@ -44,3 +44,4 @@ contents = requests.get(f"https://api.github.com/repos/{username}/{repository}/c
 num_files = len(contents)
 
 print(num_files)
+print(contents)
