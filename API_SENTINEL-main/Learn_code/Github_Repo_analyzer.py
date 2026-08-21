@@ -46,6 +46,7 @@ repo = data['name']
 stars = data['stargazers_count']
 print(f"{languages}, {repo}, {stars}")
 
+content_url = (f"https://api.github.com/repos/{username}/{repository}/contents/")
 contents = requests.get(f"https://api.github.com/repos/{username}/{repository}/contents/", headers=headers).json()
 
 def countfiles(folder_url):
@@ -61,20 +62,86 @@ def isDir(dict_to_check):
         return False
 
 def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
+        files = ()
         if len(requests.get(github_url_content, HEADERS).json()) == 0:
-                return 0
+                return 0, ()
 
         for file in requests.get(github_url_content, headers=HEADERS).json():
-                print(file['name'])
                 if isDir(file):
                         file_url_content = f"{github_url_content}{file['name']}/"
-                        count += Count_Total_Files(file_url_content, HEADERS=headers)
+                        new_count, new_files = Count_Total_Files(file_url_content, HEADERS=headers)
+                        count += new_count
+                        files = files + new_files
                 else:
                         count += 1
+                        files = files + (file['name'],)
 
-        return count
+        return count, files
+
+def Count_File_Types(github_url_content, HEADERS=headers):
+        file_count, file_names = Count_Total_Files(github_url_content)
+        langauge_dict = {
+    ".py": "Python",
+    ".js": "JavaScript",
+    ".jsx": "JavaScript",
+    ".ts": "TypeScript",
+    ".tsx": "TypeScript",
+    ".java": "Java",
+    ".c": "C",
+    ".h": "C/C++ Header",
+    ".cpp": "C++",
+    ".cc": "C++",
+    ".cxx": "C++",
+    ".hpp": "C++ Header",
+    ".cs": "C#",
+    ".go": "Go",
+    ".rs": "Rust",
+    ".rb": "Ruby",
+    ".php": "PHP",
+    ".swift": "Swift",
+    ".kt": "Kotlin",
+    ".kts": "Kotlin",
+    ".dart": "Dart",
+    ".scala": "Scala",
+    ".r": "R",
+    ".lua": "Lua",
+    ".pl": "Perl",
+    ".sh": "Shell",
+    ".bash": "Shell",
+    ".zsh": "Shell",
+    ".fish": "Fish",
+    ".html": "HTML",
+    ".htm": "HTML",
+    ".css": "CSS",
+    ".scss": "SCSS",
+    ".sass": "Sass",
+    ".less": "Less",
+    ".sql": "SQL",
+    ".json": "JSON",
+    ".xml": "XML",
+    ".yaml": "YAML",
+    ".yml": "YAML",
+    ".toml": "TOML",
+    ".md": "Markdown",
+    ".markdown": "Markdown",
+    ".txt": "Text",
+    ".vue": "Vue",
+    ".svelte": "Svelte",
+}
+
+        language_count = {'other': 0}
+        for key, name in langauge_dict.items():
+                language_count[name] = 0
+        
+        for file_name in file_names:
+                root, ext = os.path.splitext(github_url_content + file_name)
+                if ext in langauge_dict:
+                        language_count[langauge_dict[ext]] += 1 
+                else:
+                        language_count['other'] += 1
+        
+        return language_count
 
 
-
-
-print(Count_Total_Files(f"https://api.github.com/repos/{username}/{repository}/contents/"))
+print(Count_Total_Files(content_url))
+print(Count_File_Types(content_url))
