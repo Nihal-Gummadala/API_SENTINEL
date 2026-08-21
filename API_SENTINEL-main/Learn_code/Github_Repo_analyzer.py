@@ -15,6 +15,11 @@ Analyze the data
 Print results"""
 import requests
 import json
+import os
+
+token = os.environ.get("GITHUB_TOKEN")
+
+headers = {"Authorization": f"Bearer {token}"}
 
 url = input("Please enter Github url:")
 url_split = url.split("/")
@@ -22,7 +27,7 @@ username = url_split[-2]
 repository = url_split[-1]
 print(username + "  " + repository)
 
-response = requests.get(f"https://api.github.com/repos/{username}/{repository}")
+response = requests.get(f"https://api.github.com/repos/{username}/{repository}", headers=headers)
 print(response.status_code)
 print(response.text)
 data = None
@@ -36,12 +41,12 @@ with open("data.json", "w") as json_file:
 
 language_url = data['languages_url']
 
-languages = list(requests.get(language_url).json().keys())
+languages = list(requests.get(language_url, headers=headers).json().keys())
 repo = data['name']
 stars = data['stargazers_count']
 print(f"{languages}, {repo}, {stars}")
 
-contents = requests.get(f"https://api.github.com/repos/{username}/{repository}/contents/").json()
+contents = requests.get(f"https://api.github.com/repos/{username}/{repository}/contents/", headers=headers).json()
 
 def countfiles(folder_url):
         count = 0
@@ -55,21 +60,20 @@ def isDir(dict_to_check):
                 return True
         return False
 
-def Count_Total_Files(github_url_content, count=0):
-        if len(requests.get(github_url_content).json()) == 0:
+def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
+        if len(requests.get(github_url_content, HEADERS).json()) == 0:
                 return 0
 
-        for file in requests.get(github_url_content).json():
+        for file in requests.get(github_url_content, headers=HEADERS).json():
                 print(file['name'])
                 if isDir(file):
                         file_url_content = f"{github_url_content}{file['name']}/"
-                        print(file_url_content)
-                        Count_Total_Files(file_url_content, count)
-                        count += Count_Total_Files(file_url_content)
+                        count += Count_Total_Files(file_url_content, HEADERS=headers)
                 else:
                         count += 1
 
         return count
+
 
 
 
