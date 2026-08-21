@@ -24,6 +24,7 @@ print(username + "  " + repository)
 
 response = requests.get(f"https://api.github.com/repos/{username}/{repository}")
 print(response.status_code)
+print(response.text)
 data = None
 if response.status_code == 200:
     data = response.json()
@@ -41,7 +42,35 @@ stars = data['stargazers_count']
 print(f"{languages}, {repo}, {stars}")
 
 contents = requests.get(f"https://api.github.com/repos/{username}/{repository}/contents/").json()
-num_files = len(contents)
 
-print(num_files)
-print(contents)
+def countfiles(folder_url):
+        count = 0
+        for file in requests.get(folder_url).json():
+                count += 1
+        return count
+
+
+def isDir(dict_to_check):
+        if dict_to_check['type'] == 'dir':
+                return True
+        return False
+
+def Count_Total_Files(github_url_content, count=0):
+        if len(requests.get(github_url_content).json()) == 0:
+                return 0
+
+        for file in requests.get(github_url_content).json():
+                print(file['name'])
+                if isDir(file):
+                        file_url_content = f"{github_url_content}{file['name']}/"
+                        print(file_url_content)
+                        Count_Total_Files(file_url_content, count)
+                        count += Count_Total_Files(file_url_content)
+                else:
+                        count += 1
+
+        return count
+
+
+
+print(Count_Total_Files(f"https://api.github.com/repos/{username}/{repository}/contents/"))
