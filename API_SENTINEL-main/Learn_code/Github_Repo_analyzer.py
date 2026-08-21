@@ -143,5 +143,3 @@ def Count_File_Types(github_url_content, HEADERS=headers):
         return language_count
 
 
-print(Count_Total_Files(content_url))
-print(Count_File_Types(content_url))
