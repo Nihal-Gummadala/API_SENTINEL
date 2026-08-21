@@ -1,18 +1,3 @@
-"""User enters GitHub URL
-        ↓
-Parse the URL
-        ↓
-Find username + repository
-        ↓
-Call GitHub API
-        ↓
-GitHub sends JSON
-        ↓
-Python converts JSON → Python data
-        ↓
-Analyze the data
-        ↓
-Print results"""
 import requests
 import json
 import os
@@ -29,7 +14,6 @@ print(username + "  " + repository)
 
 response = requests.get(f"https://api.github.com/repos/{username}/{repository}", headers=headers)
 print(response.status_code)
-print(response.text)
 data = None
 if response.status_code == 200:
     data = response.json()
@@ -62,24 +46,27 @@ def isDir(dict_to_check):
         return False
 
 def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
+        file_sizes={}
         files = ()
         if len(requests.get(github_url_content, HEADERS).json()) == 0:
-                return 0, ()
+                return 0, (), {}
 
         for file in requests.get(github_url_content, headers=HEADERS).json():
                 if isDir(file):
                         file_url_content = f"{github_url_content}{file['name']}/"
-                        new_count, new_files = Count_Total_Files(file_url_content, HEADERS=headers)
+                        new_count, new_files, new_size = Count_Total_Files(file_url_content, HEADERS=headers)
                         count += new_count
                         files = files + new_files
+                        file_sizes = file_sizes | new_size
                 else:
                         count += 1
                         files = files + (file['name'],)
+                        file_sizes[file['name']] = file['size']
 
-        return count, files
+        return count, files, file_sizes
 
 def Count_File_Types(github_url_content, HEADERS=headers):
-        file_count, file_names = Count_Total_Files(github_url_content)
+        file_count, file_names, _ = Count_Total_Files(github_url_content)
         langauge_dict = {
     ".py": "Python",
     ".js": "JavaScript",
@@ -142,4 +129,13 @@ def Count_File_Types(github_url_content, HEADERS=headers):
         
         return language_count
 
+def get_largest_files(github_url_content, HEADERS=headers):
+        _, _, file_sizes = Count_Total_Files(github_url_content)
+        file_sizes_sorted = dict(sorted(file_sizes.items(), key=lambda item: item[1]))
+        largest_files = list(file_sizes_sorted.items())[-3:]
 
+        return largest_files
+
+print(Count_Total_Files(content_url)[0])
+print(Count_File_Types(content_url))
+print(get_largest_files(content_url))
