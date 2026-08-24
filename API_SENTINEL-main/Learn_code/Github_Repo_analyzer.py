@@ -60,8 +60,8 @@ def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
                         file_sizes = file_sizes | new_size
                 else:
                         count += 1
-                        files = files + (file['name'],)
-                        file_sizes[file['name']] = file['size']
+                        files = files + (file['path'],)
+                        file_sizes[file['path']] = file['size']
 
         return count, files, file_sizes
 
@@ -136,8 +136,15 @@ def get_largest_files(github_url_content, HEADERS=headers):
 
         return largest_files
 
-def download_files():
+def download_files(github_url_content, HEADERS=headers, username=username, repository=repository):
+        downloaded_files = {}
+        _, files, _ = Count_Total_Files(github_url_content)
+        for file in files:
+                download_url = ((requests.get(f"https://api.github.com/repos/{username}/{repository}/contents/{file}", HEADERS))).json()['download_url']
+                download_content_raw = requests.get(download_url, HEADERS).text
+                downloaded_files[file] = download_content_raw
         
-print(Count_Total_Files(content_url)[0])
-print(Count_File_Types(content_url))
-print(get_largest_files(content_url))
+        return downloaded_files
+
+
+print(download_files(content_url))
