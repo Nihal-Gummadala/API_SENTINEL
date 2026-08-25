@@ -146,5 +146,77 @@ def download_files(github_url_content, HEADERS=headers, username=username, repos
         
         return downloaded_files
 
+def ShouldAnalyzeFile(file_name, HEADERS=headers):
+        langauge_dict = {
+    ".py": "Python",
+    ".js": "JavaScript",
+    ".jsx": "JavaScript",
+    ".ts": "TypeScript",
+    ".tsx": "TypeScript",
+    ".java": "Java",
+    ".c": "C",
+    ".h": "C/C++ Header",
+    ".cpp": "C++",
+    ".cc": "C++",
+    ".cxx": "C++",
+    ".hpp": "C++ Header",
+    ".cs": "C#",
+    ".go": "Go",
+    ".rs": "Rust",
+    ".rb": "Ruby",
+    ".php": "PHP",
+    ".swift": "Swift",
+    ".kt": "Kotlin",
+    ".kts": "Kotlin",
+    ".dart": "Dart",
+    ".scala": "Scala",
+    ".r": "R",
+    ".lua": "Lua",
+    ".pl": "Perl",
+    ".sh": "Shell",
+    ".bash": "Shell",
+    ".zsh": "Shell",
+    ".fish": "Fish",
+    ".html": "HTML",
+    ".htm": "HTML",
+    ".css": "CSS",
+    ".scss": "SCSS",
+    ".sass": "Sass",
+    ".less": "Less",
+    ".sql": "SQL",
+    ".json": "JSON",
+    ".xml": "XML",
+    ".yaml": "YAML",
+    ".yml": "YAML",
+    ".toml": "TOML",
+    ".md": "Markdown",
+    ".markdown": "Markdown",
+    ".txt": "Text",
+    ".vue": "Vue",
+    ".svelte": "Svelte",
+}
 
-print(download_files(content_url))
+        root, ext = os.path.splitext(file_name)
+        if ext in langauge_dict:
+                return True
+        
+        return False
+
+
+def Count_Lines(file_contents, HEADERS=headers):
+        lines = file_contents.splitlines()
+        return len(lines)
+        
+def AnalyzeFiles(github_url_content, HEADERS=headers):
+        file_lines_sizes = {}
+        _, file_names, _ = Count_Total_Files(github_url_content)
+        downloaded_files = (download_files(github_url_content))
+        for file_name in file_names:
+                if ShouldAnalyzeFile(file_name):
+                        downloaded_file = downloaded_files[file_name]
+                        num_lines = Count_Lines(downloaded_file)
+                        file_lines_sizes[file_name] = num_lines
+        
+        return file_lines_sizes
+
+print(AnalyzeFiles(content_url))
