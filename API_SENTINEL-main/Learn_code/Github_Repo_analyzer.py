@@ -1,6 +1,8 @@
 import requests
 import json
 import os
+import ast
+
 
 token = os.environ.get("GITHUB_TOKEN")
 
@@ -202,21 +204,43 @@ def ShouldAnalyzeFile(file_name, HEADERS=headers):
         
         return False
 
-
 def Count_Lines(file_contents, HEADERS=headers):
         lines = file_contents.splitlines()
         return len(lines)
+
+class FunctionVisitor(ast.NodeVisitor):
+    def __init__(self):
+        self.functions = []
+
+    def visit_FunctionDef(self, node):
+        self.functions.append(node.name)
+        self.generic_visit(node)
+
+
+def Count_Functions(file_name, file_contents):
+        ast_tree = ast.parse(source = file_contents, filename = file_name)
+        function_counter = FunctionVisitor()
+        function_counter.visit(ast_tree)
         
+        return len(function_counter.functions), function_counter.functions
+
 def AnalyzeFiles(github_url_content, HEADERS=headers):
         file_lines_sizes = {}
+        functions_dict, function_num_dict = {}, {}
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = (download_files(github_url_content))
         for file_name in file_names:
                 if ShouldAnalyzeFile(file_name):
                         downloaded_file = downloaded_files[file_name]
+
                         num_lines = Count_Lines(downloaded_file)
                         file_lines_sizes[file_name] = num_lines
-        
-        return file_lines_sizes
+
+                        function_num, functions = Count_Functions(file_name, downloaded_file)
+                        functions_dict[file_name] = functions
+                        function_num_dict[file_name] = function_num
+
+        return file_lines_sizes, functions_dict, function_num_dict
+
 
 print(AnalyzeFiles(content_url))
