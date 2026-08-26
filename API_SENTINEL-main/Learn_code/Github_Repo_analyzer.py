@@ -242,6 +242,7 @@ def Count_Classes(file_name, file_contents):
 def AnalyzeFiles(github_url_content, HEADERS=headers):
         file_lines_sizes = {}
         functions_dict, function_num_dict = {}, {}
+        classes_dict, classes_num_dict = {}, {}
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = (download_files(github_url_content))
         for file_name in file_names:
@@ -255,7 +256,11 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
                         functions_dict[file_name] = functions
                         function_num_dict[file_name] = function_num
 
-        return file_lines_sizes, functions_dict, function_num_dict
+                        classes_num, classes = Count_Classes(file_name, downloaded_file)
+                        classes_dict[file_name] = classes
+                        classes_num_dict[file_name] = classes_num
+
+        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict
 
 
 print(AnalyzeFiles(content_url))
