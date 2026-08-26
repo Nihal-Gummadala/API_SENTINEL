@@ -216,6 +216,13 @@ class FunctionVisitor(ast.NodeVisitor):
         self.functions.append(node.name)
         self.generic_visit(node)
 
+class ClassVisitor(ast.NodeVisitor):
+        def __init__(self):
+                self.classes = []
+
+        def visit_ClassDef(self, node):
+                self.classes.append(node.name)
+                self.generic_visit(node)
 
 def Count_Functions(file_name, file_contents):
         ast_tree = ast.parse(source = file_contents, filename = file_name)
@@ -223,6 +230,14 @@ def Count_Functions(file_name, file_contents):
         function_counter.visit(ast_tree)
         
         return len(function_counter.functions), function_counter.functions
+
+def Count_Classes(file_name, file_contents):
+        ast_tree = ast.parse(source = file_contents, filename = file_name)
+        class_counter = ClassVisitor()
+        class_counter.visit(ast_tree)
+
+        return len(class_counter.classes), class_counter.classes
+
 
 def AnalyzeFiles(github_url_content, HEADERS=headers):
         file_lines_sizes = {}
