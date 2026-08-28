@@ -224,6 +224,28 @@ class ClassVisitor(ast.NodeVisitor):
                 self.classes.append(node.name)
                 self.generic_visit(node)
 
+class ImportVisitor(ast.NodeVisitor):
+    def __init__(self):
+        self.imports = []
+
+    def visit_Import(self, node):
+        for name in node.names:
+            self.imports.append(name.name)
+        self.generic_visit(node)
+
+    def visit_ImportFrom(self, node):
+        for name in node.names:
+            self.imports.append(f"{node.module}.{name.name}")
+        self.generic_visit(node)
+
+def Count_Imports(file_name, file_contents):
+    ast_tree = ast.parse(source=file_contents, filename=file_name)
+
+    import_counter = ImportVisitor()
+    import_counter.visit(ast_tree)
+
+    return len(import_counter.imports), import_counter.imports
+
 def Count_Functions(file_name, file_contents):
         ast_tree = ast.parse(source = file_contents, filename = file_name)
         function_counter = FunctionVisitor()
@@ -243,6 +265,8 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
         file_lines_sizes = {}
         functions_dict, function_num_dict = {}, {}
         classes_dict, classes_num_dict = {}, {}
+        imports_dict, imports_num_dict = {}, {}
+
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = (download_files(github_url_content))
         for file_name in file_names:
@@ -260,7 +284,11 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
                         classes_dict[file_name] = classes
                         classes_num_dict[file_name] = classes_num
 
-        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict
+                        imports_num, imports = Count_Imports(file_name, download_files)
+                        imports_dict[file_name] = imports
+                        imports_num_dict[file_name] = imports_nums
+
+        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict
 
 
 print(AnalyzeFiles(content_url))
