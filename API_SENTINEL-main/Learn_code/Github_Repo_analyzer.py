@@ -116,7 +116,7 @@ def Count_File_Types(github_url_content, HEADERS=headers):
     ".txt": "Text",
     ".vue": "Vue",
     ".svelte": "Svelte",
-}
+        }
 
         language_count = {'other': 0}
         for key, name in langauge_dict.items():
@@ -196,7 +196,7 @@ def ShouldAnalyzeFile(file_name, HEADERS=headers):
     ".txt": "Text",
     ".vue": "Vue",
     ".svelte": "Svelte",
-}
+        }
 
         root, ext = os.path.splitext(file_name)
         if ext in langauge_dict:
@@ -238,6 +238,23 @@ class ImportVisitor(ast.NodeVisitor):
             self.imports.append(f"{node.module}.{name.name}")
         self.generic_visit(node)
 
+class ComplexityVisitor(ast.NodeVisitor):
+    def __init__(self):
+        self.ifs = 0
+        self.loops = 0
+
+    def visit_If(self, node):
+        self.ifs += 1
+        self.generic_visit(node)
+
+    def visit_For(self, node):
+        self.loops += 1
+        self.generic_visit(node)
+
+    def visit_While(self, node):
+        self.loops += 1
+        self.generic_visit(node)
+
 def Count_Imports(file_name, file_contents):
     ast_tree = ast.parse(source=file_contents, filename=file_name)
 
@@ -260,12 +277,20 @@ def Count_Classes(file_name, file_contents):
 
         return len(class_counter.classes), class_counter.classes
 
+def Count_Complexity(file_name, file_contents):
+    ast_tree = ast.parse(source=file_contents, filename=file_name)
+
+    complexity_counter = ComplexityVisitor()
+    complexity_counter.visit(ast_tree)
+
+    return complexity_counter.ifs, complexity_counter.loops
 
 def AnalyzeFiles(github_url_content, HEADERS=headers):
         file_lines_sizes = {}
         functions_dict, function_num_dict = {}, {}
         classes_dict, classes_num_dict = {}, {}
         imports_dict, imports_num_dict = {}, {}
+        if_count, loops_count = 0, 0
 
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = (download_files(github_url_content))
@@ -284,11 +309,15 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
                         classes_dict[file_name] = classes
                         classes_num_dict[file_name] = classes_num
 
-                        imports_num, imports = Count_Imports(file_name, download_files)
+                        imports_num, imports = Count_Imports(file_name, downloaded_file)
                         imports_dict[file_name] = imports
-                        imports_num_dict[file_name] = imports_nums
+                        imports_num_dict[file_name] = imports_num
 
-        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict
+                        ifs, loops = Count_Complexity(file_name, downloaded_file)
+                        if_count += ifs
+                        loops_count += loops
+
+        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, if_count, loops_count
 
 
 print(AnalyzeFiles(content_url))
