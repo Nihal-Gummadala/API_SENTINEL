@@ -238,21 +238,26 @@ class ImportVisitor(ast.NodeVisitor):
             self.imports.append(f"{node.module}.{name.name}")
         self.generic_visit(node)
 
-class ComplexityVisitor(ast.NodeVisitor):
+class FunctionComplexityVisitor(ast.NodeVisitor):
     def __init__(self):
-        self.ifs = 0
-        self.loops = 0
+        self.functions = {}
 
-    def visit_If(self, node):
-        self.ifs += 1
-        self.generic_visit(node)
+    def visit_FunctionDef(self, node):
+        if_count = 0
+        loop_count = 0
 
-    def visit_For(self, node):
-        self.loops += 1
-        self.generic_visit(node)
+        for child in ast.walk(node):
+            if isinstance(child, ast.If):
+                if_count += 1
+            elif isinstance(child, (ast.For, ast.While)):
+                loop_count += 1
 
-    def visit_While(self, node):
-        self.loops += 1
+        self.functions[node.name] = {
+            "ifs": if_count,
+            "loops": loop_count,
+            "lines": node.end_lineno - node.lineno + 1
+        }
+
         self.generic_visit(node)
 
 def Count_Imports(file_name, file_contents):
@@ -277,13 +282,16 @@ def Count_Classes(file_name, file_contents):
 
         return len(class_counter.classes), class_counter.classes
 
-def Count_Complexity(file_name, file_contents):
-    ast_tree = ast.parse(source=file_contents, filename=file_name)
+def Count_Function_Complexity(file_name, file_contents):
+    ast_tree = ast.parse(
+        source=file_contents,
+        filename=file_name
+    )
 
-    complexity_counter = ComplexityVisitor()
-    complexity_counter.visit(ast_tree)
+    visitor = FunctionComplexityVisitor()
+    visitor.visit(ast_tree)
 
-    return complexity_counter.ifs, complexity_counter.loops
+    return visitor.functions
 
 def AnalyzeFiles(github_url_content, HEADERS=headers):
         file_lines_sizes = {}
@@ -291,6 +299,7 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
         classes_dict, classes_num_dict = {}, {}
         imports_dict, imports_num_dict = {}, {}
         if_count, loops_count = 0, 0
+        function_complexity_dict = {}
 
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = (download_files(github_url_content))
@@ -313,11 +322,34 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
                         imports_dict[file_name] = imports
                         imports_num_dict[file_name] = imports_num
 
-                        ifs, loops = Count_Complexity(file_name, downloaded_file)
-                        if_count += ifs
-                        loops_count += loops
+                        function_complexity = Count_Function_Complexity(file_name, downloaded_file)
+                        function_complexity_dict[file_name] = function_complexity
 
-        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, if_count, loops_count
+        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict
 
 
-print(AnalyzeFiles(content_url))
+def Code_Warnings(function_complexity_dict):
+
+    warnings = []
+
+    for file_name, functions in function_complexity_dict.items():
+        for function_name, metrics in functions.items():
+            if metrics["lines"] > 50:
+                warnings.append(f"{file_name}: Function {function_name}() is {metrics['lines']} lines long")
+
+            if metrics["ifs"] > 10:
+                warnings.append(f"{file_name}: Function {function_name}() has {metrics['ifs']} if statements")
+
+            if metrics["loops"] > 5:
+                warnings.append(f"{file_name}: Function {function_name}() has {metrics['loops']} loops")
+    return warnings
+
+                        
+
+
+                
+file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict = AnalyzeFiles(content_url)
+warnings = Code_Warnings(function_complexity_dict)
+
+print(warnings)
+print(function_complexity_dict)
