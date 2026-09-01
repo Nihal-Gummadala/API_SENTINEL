@@ -199,7 +199,7 @@ def ShouldAnalyzeFile(file_name, HEADERS=headers):
         }
 
         root, ext = os.path.splitext(file_name)
-        if ext in langauge_dict:
+        if ext==".py":
                 return True
         
         return False
@@ -238,23 +238,57 @@ class ImportVisitor(ast.NodeVisitor):
             self.imports.append(f"{node.module}.{name.name}")
         self.generic_visit(node)
 
+class FunctionBodyVisitor(ast.NodeVisitor):
+    def __init__(self):
+        self.ifs = 0
+        self.loops = 0
+
+    def visit_If(self, node):
+        self.ifs += 1
+        self.generic_visit(node)
+
+    def visit_For(self, node):
+        self.loops += 1
+        self.generic_visit(node)
+
+    def visit_While(self, node):
+        self.loops += 1
+        self.generic_visit(node)
+
+    def visit_FunctionDef(self, node):
+
+        return
+
+    def visit_AsyncFunctionDef(self, node):
+
+        return
+
+
 class FunctionComplexityVisitor(ast.NodeVisitor):
     def __init__(self):
         self.functions = {}
 
     def visit_FunctionDef(self, node):
-        if_count = 0
-        loop_count = 0
-
-        for child in ast.walk(node):
-            if isinstance(child, ast.If):
-                if_count += 1
-            elif isinstance(child, (ast.For, ast.While)):
-                loop_count += 1
+        visitor = FunctionBodyVisitor()
+        for statement in node.body:
+            visitor.visit(statement)
 
         self.functions[node.name] = {
-            "ifs": if_count,
-            "loops": loop_count,
+            "ifs": visitor.ifs,
+            "loops": visitor.loops,
+            "lines": node.end_lineno - node.lineno + 1
+        }
+
+        self.generic_visit(node)
+
+    def visit_AsyncFunctionDef(self, node):
+        visitor = FunctionBodyVisitor()
+        for statement in node.body:
+            visitor.visit(statement)
+
+        self.functions[node.name] = {
+            "ifs": visitor.ifs,
+            "loops": visitor.loops,
             "lines": node.end_lineno - node.lineno + 1
         }
 
