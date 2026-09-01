@@ -24,6 +24,7 @@ def main():
     print("\n========== GITHUB REPOSITORY ANALYZER ==========")
 
     print("\nSUMMARY")
+
     print(f"Files: {summary['total_files']}")
     print(f"Lines: {summary['total_lines']}")
     print(f"Functions: {summary['total_functions']}")
