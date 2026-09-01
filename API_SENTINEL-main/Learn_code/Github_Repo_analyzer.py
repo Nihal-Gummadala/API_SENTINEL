@@ -41,7 +41,6 @@ def countfiles(folder_url):
                 count += 1
         return count
 
-
 def isDir(dict_to_check):
         if dict_to_check['type'] == 'dir':
                 return True
@@ -263,7 +262,6 @@ class FunctionBodyVisitor(ast.NodeVisitor):
 
         return
 
-
 class FunctionComplexityVisitor(ast.NodeVisitor):
     def __init__(self):
         self.functions = {}
@@ -365,25 +363,40 @@ def AnalyzeFiles(github_url_content, HEADERS=headers):
 def Code_Warnings(function_complexity_dict):
 
     warnings = []
-
+    types = []
     for file_name, functions in function_complexity_dict.items():
         for function_name, metrics in functions.items():
             if metrics["lines"] > 50:
                 warnings.append(f"{file_name}: Function {function_name}() is {metrics['lines']} lines long")
-
+                types.append('function_length')
             if metrics["ifs"] > 10:
                 warnings.append(f"{file_name}: Function {function_name}() has {metrics['ifs']} if statements")
-
+                types.append('function_complexity')
             if metrics["loops"] > 5:
                 warnings.append(f"{file_name}: Function {function_name}() has {metrics['loops']} loops")
-    return warnings
+                types.append('function_complexity')
+    return warnings, types
 
-                        
+def Code_Quality_Score(function_complexity_dict):
+        repo_health = 100
+        _, types = Code_Warnings(function_complexity_dict)
+
+        for warning_type in types:
+
+                if warning_type == 'function_length':
+                        repo_health -= 2
+
+                if warning_type == 'function_complexity':
+                        repo_health -= 5
+
+        if repo_health < 0:
+                repo_health = 0
+
+        return repo_health
 
 
-                
 file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict = AnalyzeFiles(content_url)
 warnings = Code_Warnings(function_complexity_dict)
+code_quality_score = Code_Quality_Score(function_complexity_dict)
 
-print(warnings)
-print(function_complexity_dict)
+print(code_quality_score)
