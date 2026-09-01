@@ -394,9 +394,22 @@ def Code_Quality_Score(function_complexity_dict):
 
         return repo_health
 
+def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score):
+    total_lines = sum(file_lines_sizes.values())
+    total_functions = sum(function_num_dict.values())
+    total_classes = sum(classes_num_dict.values())
+    total_imports = sum(imports_num_dict.values())
+
+    warnings, _ = Code_Warnings(function_complexity_dict)
+
+    summary = {"total_files": len(file_lines_sizes), "total_lines": total_lines, "total_functions": total_functions, "total_classes": total_classes, "total_imports": total_imports, "total_warnings": len(warnings), "quality_score": quality_score }
+
+    return summary
 
 file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict = AnalyzeFiles(content_url)
 warnings = Code_Warnings(function_complexity_dict)
 code_quality_score = Code_Quality_Score(function_complexity_dict)
 
-print(code_quality_score)
+summary = Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, code_quality_score)
+
+print(summary)
