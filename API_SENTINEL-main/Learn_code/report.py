@@ -15,24 +15,36 @@ def report_info(repo_url, content_url, repository):
 
     languages = Get_Repo_Languages(repo_url)
 
+    largest_files = get_largest_files(content_url)
+
+    return {'repository': repository, 'languages': languages, 'summary': summary, 'warnings': warnings, 'largest_files': largest_files}
+
+def print_report(report):
+    repository = report['repository']
+    languages = report['languages']
+    summary = report['summary']
+    warnings = report['warnings']
+    largest_files = report['largest_files']
+
     print("\n========== GITHUB REPOSITORY ANALYZER ==========")
     print(f"Repository: {repository}")
     print(f"Languages: {', '.join(languages) if languages else 'none detected'}")
 
-
     print("\nSUMMARY")
-
     print(f"Files: {summary['total_files']}")
     print(f"Lines: {summary['total_lines']}")
     print(f"Functions: {summary['total_functions']}")
     print(f"Classes: {summary['total_classes']}")
     print(f"Imports: {summary['total_imports']}")
 
+    print("\nLARGEST FILES")
+    for path, size in reversed(largest_files):
+        print(f"- {path} ({size:,} bytes)")
+
     print("\nCODE QUALITY")
     print(f"Score: {summary['quality_score']}/100")
 
     print("\nWARNINGS")
-
     if warnings:
         for warning in warnings:
             print(f"- {warning}")
@@ -40,3 +52,5 @@ def report_info(repo_url, content_url, repository):
         print("No warnings!")
 
     print("\n===============================================")
+
+

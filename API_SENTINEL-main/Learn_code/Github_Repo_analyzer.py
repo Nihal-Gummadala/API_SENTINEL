@@ -1,7 +1,7 @@
 from github_api import Count_Total_Files, Count_File_Types, get_largest_files, download_files
 from code_analyzer import AnalyzeFiles
 from quality import Code_Warnings, Code_Quality_Score, Repository_Summary
-from report import report_info
+from report import report_info, print_report
 
 
 def main():
@@ -13,7 +13,8 @@ def main():
     repo_url = f"https://api.github.com/repos/{username}/{repository}"
     content_url = f"https://api.github.com/repos/{username}/{repository}/contents/"
 
-    report_info(repo_url, content_url, repository)
+    report = report_info(repo_url, content_url, repository)
+    print_report(report)
 
 
 
