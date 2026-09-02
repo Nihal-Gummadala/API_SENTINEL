@@ -1,0 +1,33 @@
+{
+    "repository": "API_SENTINEL",
+    "languages": [
+        "Python"
+    ],
+    "summary": {
+        "total_files": 5,
+        "total_lines": 474,
+        "total_functions": 36,
+        "total_classes": 5,
+        "total_imports": 33,
+        "total_warnings": 2,
+        "quality_score": 96
+    },
+    "warnings": [
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function ShouldAnalyzeFile() is 55 lines long",
+        "API_SENTINEL-main/Learn_code/github_api.py: Function Count_File_Types() is 63 lines long"
+    ],
+    "largest_files": [
+        [
+            "API_SENTINEL-main/Learn_code/code_analyzer.py",
+            6285
+        ],
+        [
+            "API_SENTINEL-main/Learn_code/data.json",
+            6340
+        ],
+        [
+            "API_SENTINEL-main/Learn_code/__pycache__/code_analyzer.cpython-311.pyc",
+            10678
+        ]
+    ]
+}
