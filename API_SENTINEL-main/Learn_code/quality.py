@@ -1,9 +1,3 @@
-import requests
-import json
-import os
-import ast
-
-
 def Code_Warnings(function_complexity_dict):
 
     warnings = []
@@ -21,7 +15,7 @@ def Code_Warnings(function_complexity_dict):
                 types.append('function_complexity')
     return warnings, types
 
-def Code_Quality_Score(function_complexity_dict):
+def Code_Quality_Score(function_complexity_dict, unused_imports):
         repo_health = 100
         _, types = Code_Warnings(function_complexity_dict)
 
@@ -33,12 +27,15 @@ def Code_Quality_Score(function_complexity_dict):
                 if warning_type == 'function_complexity':
                         repo_health -= 5
 
+        unused_import_penalty = min(len(unused_imports) * 2, 20)
+        repo_health -= unused_import_penalty
+
         if repo_health < 0:
                 repo_health = 0
 
         return repo_health
 
-def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score):
+def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score, unused_imports):
     total_lines = sum(file_lines_sizes.values())
     total_functions = sum(function_num_dict.values())
     total_classes = sum(classes_num_dict.values())
@@ -46,6 +43,6 @@ def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, im
 
     warnings, _ = Code_Warnings(function_complexity_dict)
 
-    summary = {"total_files": len(file_lines_sizes), "total_lines": total_lines, "total_functions": total_functions, "total_classes": total_classes, "total_imports": total_imports, "total_warnings": len(warnings), "quality_score": quality_score }
+    summary = {"total_files": len(file_lines_sizes), "total_lines": total_lines, "total_functions": total_functions, "total_classes": total_classes, "total_imports": total_imports, "total_warnings": len(warnings), "total_unused_imports": len(unused_imports), "quality_score": quality_score}
 
     return summary
