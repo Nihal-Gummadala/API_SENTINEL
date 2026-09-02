@@ -23,7 +23,7 @@ def isDir(dict_to_check):
 def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
         file_sizes={}
         files = ()
-        if len(requests.get(github_url_content, HEADERS).json()) == 0:
+        if len(requests.get(github_url_content, headers=HEADERS).json()) == 0:
                 return 0, (), {}
 
         for file in requests.get(github_url_content, headers=HEADERS).json():
@@ -122,3 +122,7 @@ def download_files(github_url_content, HEADERS=headers):
                 downloaded_files[file] = requests.get(meta['download_url'], headers=HEADERS).text
 
         return downloaded_files
+
+def Get_Repo_Languages(repo_url, HEADERS=headers):
+        url_languages = f"{repo_url}/languages"
+        return list(requests.get(url_languages, headers=HEADERS).json().keys())
