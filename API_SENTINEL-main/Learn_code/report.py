@@ -1,6 +1,7 @@
 from github_api import Count_Total_Files, Count_File_Types, get_largest_files, download_files, Get_Repo_Languages
 from code_analyzer import AnalyzeFiles
 from quality import Code_Warnings, Code_Quality_Score, Repository_Summary
+import json
 
 
 def report_info(repo_url, content_url, repository):
@@ -53,4 +54,46 @@ def print_report(report):
 
     print("\n===============================================")
 
+def Get_HTML_Report(report):
 
+    repository = report['repository']
+    languages = report['languages']
+    summary = report['summary']
+    warnings = report['warnings']
+    largest_files = report['largest_files']
+
+    html_content = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>GitHub Repository Analyzer</title>
+    </head>
+
+    <body>
+        <h1>GitHub Repository Analyzer</h1>
+
+        <h2>Repository</h2>
+        <p>{repository}</p>
+
+        <h2>Languages</h2>
+        <p>{', '.join(languages)}</p>
+
+        <h2>Summary</h2>
+        <p>Files: {summary['total_files']}</p>
+        <p>Lines: {summary['total_lines']}</p>
+        <p>Functions: {summary['total_functions']}</p>
+        <p>Classes: {summary['total_classes']}</p>
+        <p>Imports: {summary['total_imports']}</p>
+
+        <h2>Code Quality</h2>
+        <p>Score: {summary['quality_score']}/100</p>
+
+    </body>
+    </html>
+    """
+    with open("report.html", "w") as file:
+        file.write(html_content)
+
+def Get_Json_report(report):
+    with open("report.json", 'w') as file:
+        json_report = json.dump(report, file, indent=4)
