@@ -6,13 +6,13 @@ import json
 
 def report_info(repo_url, content_url, repository):
 
-    (file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files) = AnalyzeFiles(content_url)
+    (file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files, TODO_locs, FIXME_locs) = AnalyzeFiles(content_url)
 
-    quality_score = Code_Quality_Score(function_complexity_dict, unused_imports)
+    quality_score = Code_Quality_Score(function_complexity_dict, unused_imports, TODO_locs, FIXME_locs)
 
-    warnings, _ = Code_Warnings(function_complexity_dict)
+    warnings, _ = Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs)
 
-    summary = Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score, unused_imports)
+    summary = Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score, unused_imports, TODO_locs, FIXME_locs)
 
     languages = Get_Repo_Languages(repo_url)
 

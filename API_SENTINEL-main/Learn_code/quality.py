@@ -1,4 +1,4 @@
-def Code_Warnings(function_complexity_dict):
+def Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs):
 
     warnings = []
     types = []
@@ -13,11 +13,20 @@ def Code_Warnings(function_complexity_dict):
             if metrics["loops"] > 5:
                 warnings.append(f"{file_name}: Function {function_name}() has {metrics['loops']} loops")
                 types.append('function_complexity')
+
+    for name, lines in TODO_locs.items():
+        line_str = ", ".join(str(l) for l in lines)
+        warnings.append(f"{name}: TODO found on lines {line_str}")
+        types.append('TODO')
+    for name, lines in FIXME_locs.items():
+        line_str = ", ".join(str(l) for l in lines)
+        warnings.append(f"{name}: FIXME found on lines {line_str}")
+        types.append('FIXME')
     return warnings, types
 
-def Code_Quality_Score(function_complexity_dict, unused_imports):
+def Code_Quality_Score(function_complexity_dict, unused_imports, TODO_locs, FIXME_locs):
         repo_health = 100
-        _, types = Code_Warnings(function_complexity_dict)
+        _, types = Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs)
 
         for warning_type in types:
 
@@ -27,6 +36,12 @@ def Code_Quality_Score(function_complexity_dict, unused_imports):
                 if warning_type == 'function_complexity':
                         repo_health -= 5
 
+                if warning_type == 'TODO':
+                    repo_health -= 2
+
+                if warning_type == 'FIXME':
+                    repo_health -= 2
+
         unused_import_penalty = min(len(unused_imports) * 2, 20)
         repo_health -= unused_import_penalty
 
@@ -35,13 +50,13 @@ def Code_Quality_Score(function_complexity_dict, unused_imports):
 
         return repo_health
 
-def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score, unused_imports):
+def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, imports_num_dict, function_complexity_dict, quality_score, unused_imports, TODO_locs, FIXME_locs):
     total_lines = sum(file_lines_sizes.values())
     total_functions = sum(function_num_dict.values())
     total_classes = sum(classes_num_dict.values())
     total_imports = sum(imports_num_dict.values())
 
-    warnings, _ = Code_Warnings(function_complexity_dict)
+    warnings, _ = Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs)
 
     summary = {"total_files": len(file_lines_sizes), "total_lines": total_lines, "total_functions": total_functions, "total_classes": total_classes, "total_imports": total_imports, "total_warnings": len(warnings), "total_unused_imports": len(unused_imports), "quality_score": quality_score}
 

@@ -178,6 +178,20 @@ def Get_Unused_Imports(file_name, file_contents):
 
     return unused_imports
 
+def find_TODO_and_FIXME(file_contents):
+    TODO_loc = []
+    FIXME_loc = []
+
+    lines = file_contents.splitlines()
+    for number, line in enumerate(lines, start=1):
+        if "TODO" in line:
+            TODO_loc.append(number)
+            
+        if "FIXME" in line:
+            FIXME_loc.append(number)
+    
+    return TODO_loc, FIXME_loc
+
 def AnalyzeFiles(github_url_content):
         file_lines_sizes = {}
         functions_dict, function_num_dict = {}, {}
@@ -186,6 +200,8 @@ def AnalyzeFiles(github_url_content):
         function_complexity_dict = {}
         unused_imports = []
         skipped_files = []
+        TODO_locs = {}
+        FIXME_locs = {}
 
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = download_files(github_url_content)
@@ -216,8 +232,13 @@ def AnalyzeFiles(github_url_content):
 
                         function_complexity = Count_Function_Complexity(file_name, downloaded_file)
                         function_complexity_dict[file_name] = function_complexity
-                        
+
                         for import_name in sorted(Get_Unused_Imports(file_name, downloaded_file)):
                                 unused_imports.append(f"{file_name}: {import_name}")
 
-        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files
+                        TODO, FIXME = find_TODO_and_FIXME(downloaded_file)
+                        TODO_locs[file_name] = TODO
+                        FIXME_locs[file_name] = FIXME
+
+
+        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files, TODO_locs, FIXME_locs
