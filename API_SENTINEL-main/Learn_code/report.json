@@ -6,25 +6,35 @@
     ],
     "summary": {
         "total_files": 5,
-        "total_lines": 565,
-        "total_functions": 42,
+        "total_lines": 601,
+        "total_functions": 43,
         "total_classes": 6,
         "total_imports": 17,
-        "total_warnings": 1,
+        "total_warnings": 11,
         "total_unused_imports": 0,
-        "quality_score": 98
+        "quality_score": 78
     },
     "warnings": [
-        "API_SENTINEL-main/Learn_code/report.py: Function Get_HTML_Report() is 59 lines long"
+        "API_SENTINEL-main/Learn_code/report.py: Function Get_HTML_Report() is 59 lines long",
+        "API_SENTINEL-main/Learn_code/Github_Repo_analyzer.py: TODO found on lines ",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: TODO found on lines 181, 182, 187, 188, 193, 203, 239, 240, 244",
+        "API_SENTINEL-main/Learn_code/github_api.py: TODO found on lines ",
+        "API_SENTINEL-main/Learn_code/quality.py: TODO found on lines 1, 17, 19, 20, 27, 29, 39, 53, 59",
+        "API_SENTINEL-main/Learn_code/report.py: TODO found on lines 9, 11, 13, 15",
+        "API_SENTINEL-main/Learn_code/Github_Repo_analyzer.py: FIXME found on lines ",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: FIXME found on lines 181, 183, 190, 191, 193, 204, 239, 241, 244",
+        "API_SENTINEL-main/Learn_code/github_api.py: FIXME found on lines ",
+        "API_SENTINEL-main/Learn_code/quality.py: FIXME found on lines 1, 21, 23, 24, 27, 29, 42, 53, 59",
+        "API_SENTINEL-main/Learn_code/report.py: FIXME found on lines 9, 11, 13, 15"
     ],
     "largest_files": [
         [
-            "API_SENTINEL-main/Learn_code/code_analyzer.py",
-            7242
-        ],
-        [
             "API_SENTINEL-main/Learn_code/__pycache__/report.cpython-311.pyc",
             7754
+        ],
+        [
+            "API_SENTINEL-main/Learn_code/code_analyzer.py",
+            7817
         ],
         [
             "API_SENTINEL-main/Learn_code/__pycache__/code_analyzer.cpython-311.pyc",
