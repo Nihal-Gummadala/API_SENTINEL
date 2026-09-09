@@ -180,8 +180,6 @@ def Get_Unused_Imports(file_name, file_contents):
 
     return unused_imports
 
-
-
 def find_TODO_and_FIXME(file_contents):
     TODO_loc = []
     FIXME_loc = []
@@ -200,6 +198,8 @@ def find_TODO_and_FIXME(file_contents):
                 FIXME_loc.append(line_number)
 
     return TODO_loc, FIXME_loc
+
+# TODO: Add nested loop detection
 
 def AnalyzeFiles(github_url_content):
         file_lines_sizes = {}
