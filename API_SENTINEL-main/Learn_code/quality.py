@@ -15,13 +15,15 @@ def Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs):
                 types.append('function_complexity')
 
     for name, lines in TODO_locs.items():
-        line_str = ", ".join(str(l) for l in lines)
-        warnings.append(f"{name}: TODO found on lines {line_str}")
-        types.append('TODO')
+        if lines:
+            line_str = ", ".join(str(l) for l in lines)
+            warnings.append(f"{name}: TODO found on lines {line_str}")
+            types.append('TODO')
     for name, lines in FIXME_locs.items():
-        line_str = ", ".join(str(l) for l in lines)
-        warnings.append(f"{name}: FIXME found on lines {line_str}")
-        types.append('FIXME')
+        if lines:
+            line_str = ", ".join(str(l) for l in lines)
+            warnings.append(f"{name}: FIXME found on lines {line_str}")
+            types.append('FIXME')
     return warnings, types
 
 def Code_Quality_Score(function_complexity_dict, unused_imports, TODO_locs, FIXME_locs):

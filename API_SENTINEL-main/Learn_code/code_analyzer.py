@@ -1,6 +1,8 @@
 import os
 import ast
 from github_api import Count_Total_Files, download_files
+import tokenize
+from io import StringIO
 
 def ShouldAnalyzeFile(file_name):
         root, ext = os.path.splitext(file_name)
@@ -178,18 +180,25 @@ def Get_Unused_Imports(file_name, file_contents):
 
     return unused_imports
 
+
+
 def find_TODO_and_FIXME(file_contents):
     TODO_loc = []
     FIXME_loc = []
 
-    lines = file_contents.splitlines()
-    for number, line in enumerate(lines, start=1):
-        if "TODO" in line:
-            TODO_loc.append(number)
-            
-        if "FIXME" in line:
-            FIXME_loc.append(number)
-    
+    tokens = tokenize.generate_tokens(StringIO(file_contents).readline)
+
+    for token in tokens:
+        if token.type == tokenize.COMMENT:
+            comment = token.string.upper()
+            line_number = token.start[0]
+
+            if "TODO" in comment:
+                TODO_loc.append(line_number)
+
+            if "FIXME" in comment:
+                FIXME_loc.append(line_number)
+
     return TODO_loc, FIXME_loc
 
 def AnalyzeFiles(github_url_content):
