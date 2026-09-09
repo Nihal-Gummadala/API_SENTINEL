@@ -10,12 +10,13 @@
         "total_functions": 43,
         "total_classes": 6,
         "total_imports": 19,
-        "total_warnings": 1,
+        "total_warnings": 2,
         "total_unused_imports": 0,
-        "quality_score": 98
+        "quality_score": 96
     },
     "warnings": [
-        "API_SENTINEL-main/Learn_code/report.py: Function Get_HTML_Report() is 59 lines long"
+        "API_SENTINEL-main/Learn_code/report.py: Function Get_HTML_Report() is 59 lines long",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: TODO found on lines 202"
     ],
     "largest_files": [
         [
