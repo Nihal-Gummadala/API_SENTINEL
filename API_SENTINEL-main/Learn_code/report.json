@@ -6,10 +6,10 @@
     ],
     "summary": {
         "total_files": 5,
-        "total_lines": 601,
+        "total_lines": 612,
         "total_functions": 43,
         "total_classes": 6,
-        "total_imports": 17,
+        "total_imports": 19,
         "total_warnings": 1,
         "total_unused_imports": 0,
         "quality_score": 98
@@ -19,16 +19,16 @@
     ],
     "largest_files": [
         [
-            "API_SENTINEL-main/Learn_code/code_analyzer.py",
-            7817
-        ],
-        [
             "API_SENTINEL-main/Learn_code/__pycache__/report.cpython-311.pyc",
             7833
         ],
         [
+            "API_SENTINEL-main/Learn_code/code_analyzer.py",
+            8011
+        ],
+        [
             "API_SENTINEL-main/Learn_code/__pycache__/code_analyzer.cpython-311.pyc",
-            13504
+            13811
         ]
     ],
     "unused_imports": [],
