@@ -117,7 +117,7 @@ class FunctionComplexityVisitor(ast.NodeVisitor):
             "loops": visitor.loops,
             "lines": node.end_lineno - node.lineno + 1,
             "max_nesting": visitor.max_depth,
-            "cyclomatics_complexity": visitor.cyclomatic
+            "cyclomatic_complexity": visitor.cyclomatic
         }
 
         self.generic_visit(node)
