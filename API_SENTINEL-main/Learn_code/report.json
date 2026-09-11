@@ -6,17 +6,28 @@
     ],
     "summary": {
         "total_files": 5,
-        "total_lines": 612,
+        "total_lines": 639,
         "total_functions": 43,
         "total_classes": 6,
         "total_imports": 19,
-        "total_warnings": 2,
+        "total_warnings": 13,
         "total_unused_imports": 0,
-        "quality_score": 96
+        "quality_score": 6
     },
     "warnings": [
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function visit_Import() has a maximum nesting depth of 2",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function visit_ImportFrom() has a maximum nesting depth of 2",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function visit_Constant() has a maximum nesting depth of 2",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function Get_Unused_Imports() has a maximum nesting depth of 2",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function find_TODO_and_FIXME() has a maximum nesting depth of 3",
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: Function AnalyzeFiles() has a maximum nesting depth of 3",
+        "API_SENTINEL-main/Learn_code/github_api.py: Function Count_Total_Files() has a maximum nesting depth of 2",
+        "API_SENTINEL-main/Learn_code/github_api.py: Function Count_File_Types() has a maximum nesting depth of 2",
+        "API_SENTINEL-main/Learn_code/quality.py: Function Code_Warnings() has a maximum nesting depth of 3",
+        "API_SENTINEL-main/Learn_code/quality.py: Function Code_Quality_Score() has a maximum nesting depth of 6",
+        "API_SENTINEL-main/Learn_code/report.py: Function print_report() has a maximum nesting depth of 2",
         "API_SENTINEL-main/Learn_code/report.py: Function Get_HTML_Report() is 59 lines long",
-        "API_SENTINEL-main/Learn_code/code_analyzer.py: TODO found on lines 202"
+        "API_SENTINEL-main/Learn_code/code_analyzer.py: TODO found on lines 215"
     ],
     "largest_files": [
         [
@@ -25,7 +36,7 @@
         ],
         [
             "API_SENTINEL-main/Learn_code/code_analyzer.py",
-            8044
+            8581
         ],
         [
             "API_SENTINEL-main/Learn_code/__pycache__/code_analyzer.cpython-311.pyc",
