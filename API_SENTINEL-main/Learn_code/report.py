@@ -18,7 +18,7 @@ def report_info(repo_url, content_url, repository):
 
     largest_files = get_largest_files(content_url)
 
-    return {'repository': repository, 'languages': languages, 'summary': summary, 'warnings': warnings, 'largest_files': largest_files, 'unused_imports': unused_imports, 'skipped_files': skipped_files}
+    return {'repository': repository, 'languages': languages, 'summary': summary, 'warnings': warnings, 'largest_files': largest_files, 'unused_imports': unused_imports, 'skipped_files': skipped_files, 'function_complexity': function_complexity_dict}
 
 def print_report(report):
     repository = report['repository']
@@ -28,6 +28,7 @@ def print_report(report):
     largest_files = report['largest_files']
     unused_imports = report['unused_imports']
     skipped_files = report['skipped_files']
+    function_complexity = report['function_complexity']
 
     print("\n========== GITHUB REPOSITORY ANALYZER ==========")
     print(f"Repository: {repository}")
@@ -39,6 +40,18 @@ def print_report(report):
     print(f"Functions: {summary['total_functions']}")
     print(f"Classes: {summary['total_classes']}")
     print(f"Imports: {summary['total_imports']}")
+
+    print("\nFUNCTION METRICS")
+    for file_name, functions in function_complexity.items():
+        print(f"\n{file_name}")
+
+        for function_name, metrics in functions.items():
+            print(f"  {function_name}()")
+            print(f"    Lines: {metrics['lines']}")
+            print(f"    If statements: {metrics['ifs']}")
+            print(f"    Loops: {metrics['loops']}")
+            print(f"    Max loop nesting: {metrics['max_nesting']}")
+            print(f"    Cyclomatic complexity: {metrics['cyclomatic_complexity']}")
 
     print("\nLARGEST FILES")
     for path, size in reversed(largest_files):
