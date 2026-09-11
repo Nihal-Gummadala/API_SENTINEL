@@ -65,18 +65,29 @@ class FunctionBodyVisitor(ast.NodeVisitor):
     def __init__(self):
         self.ifs = 0
         self.loops = 0
+        self.current_depth = 0
+        self.max_depth = 0
 
     def visit_If(self, node):
         self.ifs += 1
+        self.current_depth += 1
+        self.max_depth = max(self.max_depth, self.current_depth)
         self.generic_visit(node)
+        self.current_depth -= 1
 
     def visit_For(self, node):
         self.loops += 1
+        self.current_depth += 1
+        self.max_depth = max(self.max_depth, self.current_depth)
         self.generic_visit(node)
+        self.current_depth -= 1
 
     def visit_While(self, node):
         self.loops += 1
+        self.current_depth += 1
+        self.max_depth = max(self.max_depth, self.current_depth)
         self.generic_visit(node)
+        self.current_depth -= 1
 
     def visit_FunctionDef(self, node):
 
@@ -98,7 +109,8 @@ class FunctionComplexityVisitor(ast.NodeVisitor):
         self.functions[node.name] = {
             "ifs": visitor.ifs,
             "loops": visitor.loops,
-            "lines": node.end_lineno - node.lineno + 1
+            "lines": node.end_lineno - node.lineno + 1,
+            "max_nesting": visitor.max_depth
         }
 
         self.generic_visit(node)
@@ -111,7 +123,8 @@ class FunctionComplexityVisitor(ast.NodeVisitor):
         self.functions[node.name] = {
             "ifs": visitor.ifs,
             "loops": visitor.loops,
-            "lines": node.end_lineno - node.lineno + 1
+            "lines": node.end_lineno - node.lineno + 1,
+            "max_nesting": visitor.max_depth
         }
 
         self.generic_visit(node)

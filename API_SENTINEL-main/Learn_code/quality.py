@@ -13,6 +13,9 @@ def Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs):
             if metrics["loops"] > 5:
                 warnings.append(f"{file_name}: Function {function_name}() has {metrics['loops']} loops")
                 types.append('function_complexity')
+            if metrics["max_nesting"] >= 2: 
+                warnings.append( f"{file_name}: Function {function_name}() has a maximum nesting depth of {metrics['max_nesting']}" ) 
+                types.append(('nesting', metrics["max_nesting"]))
 
     for name, lines in TODO_locs.items():
         if lines:
@@ -43,6 +46,17 @@ def Code_Quality_Score(function_complexity_dict, unused_imports, TODO_locs, FIXM
 
                 if warning_type == 'FIXME':
                     repo_health -= 2
+                
+                if isinstance(warning_type, tuple) and warning_type[0] == 'nesting': 
+                    nesting_depth = warning_type[1] 
+                    if nesting_depth == 2: 
+                        repo_health -= 2 
+                    elif nesting_depth == 3: 
+                        repo_health -= 4 
+                    elif nesting_depth == 4:
+                        repo_health -= 16 
+                    elif nesting_depth > 4: 
+                        repo_health -= 16 * (2 ** (nesting_depth - 4))
 
         unused_import_penalty = min(len(unused_imports) * 2, 20)
         repo_health -= unused_import_penalty
