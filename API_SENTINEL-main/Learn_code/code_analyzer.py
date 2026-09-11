@@ -67,15 +67,18 @@ class FunctionBodyVisitor(ast.NodeVisitor):
         self.loops = 0
         self.current_depth = 0
         self.max_depth = 0
+        self.cyclomatic = 1
 
     def visit_If(self, node):
         self.ifs += 1
+        self.cyclomatic += 1
         self.generic_visit(node)
 
     def visit_For(self, node):
         self.loops += 1
         self.current_depth += 1
         self.max_depth = max(self.max_depth, self.current_depth)
+        self.cyclomatic += 1
         self.generic_visit(node)
         self.current_depth -= 1
 
@@ -83,9 +86,15 @@ class FunctionBodyVisitor(ast.NodeVisitor):
         self.loops += 1
         self.current_depth += 1
         self.max_depth = max(self.max_depth, self.current_depth)
+        self.cyclomatic += 1
         self.generic_visit(node)
         self.current_depth -= 1
 
+    def visit_BoolOp(self, node):
+        if isinstance(node.op, (ast.And, ast.Or)):
+            self.cyclomatic += len(node.values) - 1
+        self.generic_visit(node)
+        
     def visit_FunctionDef(self, node):
 
         return
@@ -107,7 +116,8 @@ class FunctionComplexityVisitor(ast.NodeVisitor):
             "ifs": visitor.ifs,
             "loops": visitor.loops,
             "lines": node.end_lineno - node.lineno + 1,
-            "max_nesting": visitor.max_depth
+            "max_nesting": visitor.max_depth,
+            "cyclomatics_complexity": visitor.cyclomatic
         }
 
         self.generic_visit(node)
@@ -121,7 +131,8 @@ class FunctionComplexityVisitor(ast.NodeVisitor):
             "ifs": visitor.ifs,
             "loops": visitor.loops,
             "lines": node.end_lineno - node.lineno + 1,
-            "max_nesting": visitor.max_depth
+            "max_nesting": visitor.max_depth,
+            "cyclomatic_complexity": visitor.cyclomatic
         }
 
         self.generic_visit(node)

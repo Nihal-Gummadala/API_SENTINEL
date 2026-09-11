@@ -16,6 +16,13 @@ def Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs):
             if metrics["max_nesting"] >= 2: 
                 warnings.append( f"{file_name}: Function {function_name}() has a maximum nesting depth of {metrics['max_nesting']}" ) 
                 types.append(('nesting', metrics["max_nesting"]))
+            if metrics["cyclomatic_complexity"] >= 6: 
+                if metrics["cyclomatic_complexity"] <= 10: 
+                    warnings.append( f"{file_name}: Function {function_name}() has moderate cyclomatic complexity of {metrics['cyclomatic_complexity']}" ) 
+                    types.append(('cyclomatic', 'moderate')) 
+                else: 
+                    warnings.append( f"{file_name}: Function {function_name}() has high cyclomatic complexity of {metrics['cyclomatic_complexity']}" ) 
+                    types.append(('cyclomatic', 'high'))
 
     for name, lines in TODO_locs.items():
         if lines:
@@ -57,6 +64,13 @@ def Code_Quality_Score(function_complexity_dict, unused_imports, TODO_locs, FIXM
                         repo_health -= 16 
                     elif nesting_depth > 4: 
                         repo_health -= 16 * (2 ** (nesting_depth - 4))
+
+                if isinstance(warning_type, tuple) and warning_type[0] == 'cyclomatic': 
+                    complexity_level = warning_type[1] 
+                    if complexity_level == 'moderate': 
+                        repo_health -= 3 
+                    elif complexity_level == 'high': 
+                        repo_health -= 5
 
         unused_import_penalty = min(len(unused_imports) * 2, 20)
         repo_health -= unused_import_penalty
