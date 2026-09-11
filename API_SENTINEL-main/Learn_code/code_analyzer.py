@@ -70,10 +70,7 @@ class FunctionBodyVisitor(ast.NodeVisitor):
 
     def visit_If(self, node):
         self.ifs += 1
-        self.current_depth += 1
-        self.max_depth = max(self.max_depth, self.current_depth)
         self.generic_visit(node)
-        self.current_depth -= 1
 
     def visit_For(self, node):
         self.loops += 1
@@ -211,8 +208,6 @@ def find_TODO_and_FIXME(file_contents):
                 FIXME_loc.append(line_number)
 
     return TODO_loc, FIXME_loc
-
-# TODO: Add nested loop detection
 
 def AnalyzeFiles(github_url_content):
         file_lines_sizes = {}
