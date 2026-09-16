@@ -153,6 +153,34 @@ class UnusedImportVisitor(ast.NodeVisitor):
                 self.used_names.add(word)
         self.generic_visit(node)
 
+class APICallVisitor(ast.NodeVisitor):
+    def __init__(self):
+        self.api_calls = []
+
+    def visit_Call(self, node):
+        if isinstance(node.func, ast.Attribute):
+
+            library = node.func.value
+            method = node.func.attr
+
+            if isinstance(library, ast.Name):
+                library_name = library.id
+
+                if method in ("get", "post", "put", "delete", "patch"):
+                    
+                    url = None
+
+                    if node.args:
+                        first_argument = node.args[0]
+
+                        if isinstance(first_argument, ast.Constant):
+                            if isinstance(first_argument.value, str):
+                                url = first_argument.value
+
+                    self.api_calls.append({"library": library_name,"method": method.upper(),"url": url,"line": node.lineno})
+
+        self.generic_visit(node)
+
 def Count_Imports(file_name, file_contents):
     ast_tree = ast.parse(source=file_contents, filename=file_name)
 
@@ -220,6 +248,14 @@ def find_TODO_and_FIXME(file_contents):
 
     return TODO_loc, FIXME_loc
 
+def Detect_API_Calls(file_name, source_code):
+    tree = ast.parse(source=source_code, filename=file_name)
+
+    api_visitor = APICallVisitor()
+    api_visitor.visit(tree)
+
+    return api_visitor.api_calls
+
 def AnalyzeFiles(github_url_content):
         file_lines_sizes = {}
         functions_dict, function_num_dict = {}, {}
@@ -230,6 +266,7 @@ def AnalyzeFiles(github_url_content):
         skipped_files = []
         TODO_locs = {}
         FIXME_locs = {}
+        api_calls_dict = {}
 
         _, file_names, _ = Count_Total_Files(github_url_content)
         downloaded_files = download_files(github_url_content)
@@ -267,6 +304,9 @@ def AnalyzeFiles(github_url_content):
                         TODO, FIXME = find_TODO_and_FIXME(downloaded_file)
                         TODO_locs[file_name] = TODO
                         FIXME_locs[file_name] = FIXME
+                        
+                        api_calls = Detect_API_Calls(file_name, downloaded_file)
+                        api_calls_dict[file_name] = api_calls
 
 
-        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files, TODO_locs, FIXME_locs
+        return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files, TODO_locs, FIXME_locs, api_calls_dict
