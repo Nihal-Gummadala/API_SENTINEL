@@ -30,16 +30,16 @@
     ],
     "largest_files": [
         [
-            "API_SENTINEL-main/REPO_ANALYZER/report.json",
-            9459
+            "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py",
+            11416
         ],
         [
-            "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py",
-            10665
+            "API_SENTINEL-main/REPO_ANALYZER/report.json",
+            11655
         ],
         [
             "API_SENTINEL-main/REPO_ANALYZER/__pycache__/code_analyzer.cpython-311.pyc",
-            14973
+            17624
         ]
     ],
     "unused_imports": [],
@@ -334,18 +334,11 @@
                 "api": "Unknown API"
             },
             {
-                "library": "contents",
-                "method": "GET",
-                "url": "message",
-                "line": 73,
-                "api": "Unknown API"
-            },
-            {
                 "library": "requests",
                 "method": "GET",
-                "url": null,
+                "url": "https://api.github.com/repos/{username}/{repository}/contents/{file}",
                 "line": 124,
-                "api": "Unknown API"
+                "api": "GitHub"
             },
             {
                 "library": "requests",
