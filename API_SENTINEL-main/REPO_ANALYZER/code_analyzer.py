@@ -162,6 +162,13 @@ class UnusedImportVisitor(ast.NodeVisitor):
 class APICallVisitor(ast.NodeVisitor):
     def __init__(self):
         self.api_calls = []
+        self.http_libraries = {"requests": "requests", "httpx": "httpx"}
+
+    def visit_Import(self, node):
+        for name in node.names:
+            if name.name in ("requests", "httpx") and name.asname:
+                self.http_libraries[name.asname] = name.name
+        self.generic_visit(node)
 
     def visit_Call(self, node):
         if isinstance(node.func, ast.Attribute):
@@ -169,11 +176,11 @@ class APICallVisitor(ast.NodeVisitor):
             library = node.func.value
             method = node.func.attr
 
-            if isinstance(library, ast.Name):
-                library_name = library.id
+            if isinstance(library, ast.Name) and library.id in self.http_libraries:
+                library_name = self.http_libraries[library.id]
 
                 if method in ("get", "post", "put", "delete", "patch"):
-                    
+
                     url = None
 
                     if node.args:
@@ -182,6 +189,14 @@ class APICallVisitor(ast.NodeVisitor):
                         if isinstance(first_argument, ast.Constant):
                             if isinstance(first_argument.value, str):
                                 url = first_argument.value
+
+                        elif isinstance(first_argument, ast.JoinedStr):
+                            url = ""
+                            for part in first_argument.values:
+                                if isinstance(part, ast.Constant):
+                                    url += part.value
+                                else:
+                                    url += "{" + ast.unparse(part.value) + "}"
 
                     self.api_calls.append({"library": library_name,"method": method.upper(),"url": url,"line": node.lineno})
 
