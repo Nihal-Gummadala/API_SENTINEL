@@ -3,6 +3,12 @@ import ast
 from github_api import Count_Total_Files, download_files
 import tokenize
 from io import StringIO
+from urllib.parse import urlparse
+
+KNOWN_APIS = {
+    "api.github.com": "GitHub",
+    "api.openai.com": "OpenAI"
+}
 
 def ShouldAnalyzeFile(file_name):
         root, ext = os.path.splitext(file_name)
@@ -256,6 +262,22 @@ def Detect_API_Calls(file_name, source_code):
 
     return api_visitor.api_calls
 
+def Identify_API(api_calls):
+    identified_calls = []
+
+    for api_call in api_calls:
+        api_name = "Unknown API"
+        url = api_call["url"]
+
+        if url:
+            host = urlparse(url).hostname
+            if host in KNOWN_APIS:
+                api_name = KNOWN_APIS[host]
+
+        identified_calls.append({**api_call, "api": api_name})
+
+    return identified_calls
+
 def AnalyzeFiles(github_url_content):
         file_lines_sizes = {}
         functions_dict, function_num_dict = {}, {}
@@ -306,7 +328,7 @@ def AnalyzeFiles(github_url_content):
                         FIXME_locs[file_name] = FIXME
                         
                         api_calls = Detect_API_Calls(file_name, downloaded_file)
-                        api_calls_dict[file_name] = api_calls
+                        api_calls_dict[file_name] = Identify_API(api_calls)
 
 
         return file_lines_sizes, functions_dict, function_num_dict, classes_dict, classes_num_dict, imports_dict, imports_num_dict, function_complexity_dict, unused_imports, skipped_files, TODO_locs, FIXME_locs, api_calls_dict

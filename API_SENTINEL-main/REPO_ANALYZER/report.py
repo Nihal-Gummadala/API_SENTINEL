@@ -1,3 +1,5 @@
+#report.py
+
 from github_api import get_largest_files, Get_Repo_Languages
 from code_analyzer import AnalyzeFiles
 from quality import Code_Warnings, Code_Quality_Score, Repository_Summary
@@ -18,7 +20,7 @@ def report_info(repo_url, content_url, repository):
 
     largest_files = get_largest_files(content_url)
 
-    return {'repository': repository, 'languages': languages, 'summary': summary, 'warnings': warnings, 'largest_files': largest_files, 'unused_imports': unused_imports, 'skipped_files': skipped_files, 'function_complexity': function_complexity_dict}
+    return {'repository': repository, 'languages': languages, 'summary': summary, 'warnings': warnings, 'largest_files': largest_files, 'unused_imports': unused_imports, 'skipped_files': skipped_files, 'function_complexity': function_complexity_dict, 'api_calls': api_calls}
 
 def print_report(report):
     repository = report['repository']
@@ -78,6 +80,18 @@ def print_report(report):
         print("\nCOULD NOT PARSE")
         for skipped_file in skipped_files:
             print(f"- {skipped_file}")
+
+    print("\nAPI CALLS")
+    found_api_call = False
+    for file_name, calls in report['api_calls'].items():
+        for call in calls:
+            found_api_call = True
+            print(f"- {file_name} (line {call['line']})")
+            print(f"    API: {call['api']}")
+            print(f"    Method: {call['method']}")
+            print(f"    URL: {call['url']}")
+    if not found_api_call:
+        print("None found!")
 
     print("\n===============================================")
 
