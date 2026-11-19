@@ -1,4 +1,3 @@
-#quality.py
 def Code_Warnings(function_complexity_dict, TODO_locs, FIXME_locs):
 
     warnings = []
@@ -92,3 +91,19 @@ def Repository_Summary(file_lines_sizes, function_num_dict, classes_num_dict, im
     summary = {"total_files": len(file_lines_sizes), "total_lines": total_lines, "total_functions": total_functions, "total_classes": total_classes, "total_imports": total_imports, "total_warnings": len(warnings), "total_unused_imports": len(unused_imports), "quality_score": quality_score}
 
     return summary
+
+
+API_PENALTIES = {"high": 10, "medium": 4, "low": 1}
+
+def API_Warnings(api_findings):
+    warnings = []
+    for finding in api_findings:
+        note = "" if finding["confidence"] == "verified" else f" ({finding['confidence']})"
+        warnings.append(f"[{finding['severity'].upper()}] {finding['file']} line {finding['line']}: {finding['message']}{note}")
+    return warnings
+
+def API_Health_Score(api_findings, checked_calls):
+    if checked_calls == 0:
+        return None
+    score = 100 - sum(API_PENALTIES[finding["severity"]] for finding in api_findings)
+    return max(score, 0)

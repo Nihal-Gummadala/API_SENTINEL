@@ -3,36 +3,54 @@
     <html>
     <head>
         <title>GitHub Repository Analyzer</title>
+        <style>
+            table { border-collapse: collapse; }
+            td, th { border: 1px solid #ccc; padding: 4px 8px; text-align: left; vertical-align: top; }
+            tr.high td:first-child { color: #b00020; font-weight: bold; }
+            tr.medium td:first-child { color: #b26a00; font-weight: bold; }
+        </style>
     </head>
 
     <body>
         <h1>GitHub Repository Analyzer</h1>
 
         <h2>Repository</h2>
-        <p>API_SENTINEL</p>
+        <p>REPO_ANALYZER</p>
 
         <h2>Languages</h2>
-        <p>Python, HTML</p>
+        <p>Python, JSON, HTML</p>
 
         <h2>Summary</h2>
-        <p>Files: 5</p>
-        <p>Lines: 752</p>
-        <p>Functions: 48</p>
-        <p>Classes: 7</p>
-        <p>Imports: 20</p>
+        <p>Files: 10</p>
+        <p>Lines: 2270</p>
+        <p>Functions: 125</p>
+        <p>Classes: 12</p>
+        <p>Imports: 71</p>
 
         <h2>Largest Files</h2>
-        <ul><li>API_SENTINEL-main/REPO_ANALYZER/__pycache__/code_analyzer.cpython-311.pyc (17,624 bytes)</li><li>API_SENTINEL-main/REPO_ANALYZER/report.json (11,655 bytes)</li><li>API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py (11,416 bytes)</li></ul>
+        <ul><li>code_analyzer.py (25,033 bytes)</li><li>doc_fetcher.py (12,670 bytes)</li><li>report.py (12,593 bytes)</li></ul>
 
         <h2>Code Quality</h2>
-        <p>Score: 60/100</p>
+        <p>Score: 0/100</p>
 
         <h2>Unused Imports</h2>
         <ul><li>None found!</li></ul>
 
         <h2>Warnings</h2>
-        <ul><li>API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py: Function visit_Call() has moderate cyclomatic complexity of 7</li><li>API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py: Function AnalyzeFiles() is 54 lines long</li><li>API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py: Function AnalyzeFiles() has a maximum nesting depth of 2</li><li>API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Warnings() has a maximum nesting depth of 2</li><li>API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Warnings() has high cyclomatic complexity of 13</li><li>API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Quality_Score() has 13 if statements</li><li>API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Quality_Score() has high cyclomatic complexity of 17</li><li>API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() is 72 lines long</li><li>API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() has 8 loops</li><li>API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() has a maximum nesting depth of 2</li><li>API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() has high cyclomatic complexity of 13</li><li>API_SENTINEL-main/REPO_ANALYZER/report.py: Function Get_HTML_Report() is 59 lines long</li></ul>
+        <ul><li>spec_diff.py: Function Diff_Indexes() is 61 lines long</li><li>spec_diff.py: Function Diff_Indexes() has 11 if statements</li><li>spec_diff.py: Function Diff_Indexes() has 6 loops</li><li>spec_diff.py: Function Diff_Indexes() has a maximum nesting depth of 2</li><li>spec_diff.py: Function Diff_Indexes() has high cyclomatic complexity of 27</li><li>spec_diff.py: Function Is_Relevant() has high cyclomatic complexity of 11</li><li>api_matcher.py: Function match() has moderate cyclomatic complexity of 10</li><li>api_matcher.py: Function Check_Call() is 85 lines long</li><li>api_matcher.py: Function Check_Call() has 21 if statements</li><li>api_matcher.py: Function Check_Call() has high cyclomatic complexity of 37</li><li>github_api.py: Function download_files() has moderate cyclomatic complexity of 6</li><li>doc_fetcher.py: Function Fetch_Spec() is 56 lines long</li><li>doc_fetcher.py: Function Fetch_Spec() has high cyclomatic complexity of 15</li><li>doc_fetcher.py: Function _resolve() has a maximum nesting depth of 2</li><li>doc_fetcher.py: Function _resolve() has moderate cyclomatic complexity of 6</li><li>doc_fetcher.py: Function _schema_fields() has moderate cyclomatic complexity of 9</li><li>doc_fetcher.py: Function Build_Endpoint_Index() is 54 lines long</li><li>doc_fetcher.py: Function Build_Endpoint_Index() has a maximum nesting depth of 3</li><li>doc_fetcher.py: Function Build_Endpoint_Index() has high cyclomatic complexity of 11</li><li>Github_Repo_analyzer.py: Function main() has moderate cyclomatic complexity of 6</li><li>code_analyzer.py: Function visit_ImportFrom() has moderate cyclomatic complexity of 7</li><li>code_analyzer.py: Function visit_Module() has a maximum nesting depth of 2</li><li>code_analyzer.py: Function _remember_session() has high cyclomatic complexity of 11</li><li>code_analyzer.py: Function _resolve_string() has high cyclomatic complexity of 14</li><li>code_analyzer.py: Function _resolve_dict() has high cyclomatic complexity of 16</li><li>code_analyzer.py: Function _match_call() has moderate cyclomatic complexity of 7</li><li>code_analyzer.py: Function visit_Call() has high cyclomatic complexity of 12</li><li>code_analyzer.py: Function Normalize_URL() has moderate cyclomatic complexity of 8</li><li>code_analyzer.py: Function Analyze_Sources() is 52 lines long</li><li>code_analyzer.py: Function Analyze_Sources() has a maximum nesting depth of 2</li><li>code_analyzer.py: Function Read_Local_Folder() has a maximum nesting depth of 2</li><li>api_checks.py: Function Run_API_Checks() is 161 lines long</li><li>api_checks.py: Function Run_API_Checks() has 19 if statements</li><li>api_checks.py: Function Run_API_Checks() has 8 loops</li><li>api_checks.py: Function Run_API_Checks() has a maximum nesting depth of 3</li><li>api_checks.py: Function Run_API_Checks() has high cyclomatic complexity of 43</li><li>quality.py: Function Code_Warnings() has a maximum nesting depth of 2</li><li>quality.py: Function Code_Warnings() has high cyclomatic complexity of 13</li><li>quality.py: Function Code_Quality_Score() has 13 if statements</li><li>quality.py: Function Code_Quality_Score() has high cyclomatic complexity of 17</li><li>report.py: Function print_report() is 74 lines long</li><li>report.py: Function print_report() has 8 loops</li><li>report.py: Function print_report() has a maximum nesting depth of 2</li><li>report.py: Function print_report() has high cyclomatic complexity of 13</li><li>report.py: Function print_api_compatibility() has 6 loops</li><li>report.py: Function print_api_compatibility() has a maximum nesting depth of 2</li><li>report.py: Function print_api_compatibility() has high cyclomatic complexity of 13</li><li>report.py: Function Get_HTML_Report() is 107 lines long</li></ul>
 
+        
+
+        <h2>API Calls</h2>
+        <table><tr><th>File</th><th>Line</th><th>API</th><th>Method</th><th>URL</th></tr><tr><td>github_api.py</td><td>78</td><td>Unidentified</td><td>GET</td><td>(from github_url_content)</td></tr><tr><td>github_api.py</td><td>141</td><td>Unidentified</td><td>GET</td><td>(from entry[&#x27;download_url&#x27;])</td></tr><tr><td>github_api.py</td><td>150</td><td>Unidentified</td><td>GET</td><td>{repo_url}/languages</td></tr><tr><td>doc_fetcher.py</td><td>90</td><td>Unidentified</td><td>GET</td><td>(from url)</td></tr></table>
+
+        <h2>API Compatibility</h2>
+        <p>Score: n/a (no calls could be checked against docs)</p>
+        <p>Calls found: 4, checked against docs: 0</p>
+        <ul></ul>
+        <p>No API problems found!</p>
+        
+        <h3>Calls that couldn't be checked</h3><ul><li>github_api.py line 78: URL comes from `github_url_content`, which couldn&#x27;t be traced in this file</li><li>github_api.py line 141: URL comes from `entry[&#x27;download_url&#x27;]`, which couldn&#x27;t be traced in this file</li><li>github_api.py line 150: the start of the URL (the host) couldn&#x27;t be traced</li><li>doc_fetcher.py line 90: URL comes from `url`, which couldn&#x27;t be traced in this file</li></ul>
         
 
     </body>

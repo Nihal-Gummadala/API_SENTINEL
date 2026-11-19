@@ -1,60 +1,350 @@
 {
-    "repository": "API_SENTINEL",
+    "repository": "REPO_ANALYZER",
     "languages": [
         "Python",
+        "JSON",
         "HTML"
     ],
     "summary": {
-        "total_files": 5,
-        "total_lines": 752,
-        "total_functions": 48,
-        "total_classes": 7,
-        "total_imports": 20,
-        "total_warnings": 12,
+        "total_files": 10,
+        "total_lines": 2270,
+        "total_functions": 125,
+        "total_classes": 12,
+        "total_imports": 71,
+        "total_warnings": 48,
         "total_unused_imports": 0,
-        "quality_score": 60
+        "quality_score": 0
     },
     "warnings": [
-        "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py: Function visit_Call() has moderate cyclomatic complexity of 7",
-        "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py: Function AnalyzeFiles() is 54 lines long",
-        "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py: Function AnalyzeFiles() has a maximum nesting depth of 2",
-        "API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Warnings() has a maximum nesting depth of 2",
-        "API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Warnings() has high cyclomatic complexity of 13",
-        "API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Quality_Score() has 13 if statements",
-        "API_SENTINEL-main/REPO_ANALYZER/quality.py: Function Code_Quality_Score() has high cyclomatic complexity of 17",
-        "API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() is 72 lines long",
-        "API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() has 8 loops",
-        "API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() has a maximum nesting depth of 2",
-        "API_SENTINEL-main/REPO_ANALYZER/report.py: Function print_report() has high cyclomatic complexity of 13",
-        "API_SENTINEL-main/REPO_ANALYZER/report.py: Function Get_HTML_Report() is 59 lines long"
+        "spec_diff.py: Function Diff_Indexes() is 61 lines long",
+        "spec_diff.py: Function Diff_Indexes() has 11 if statements",
+        "spec_diff.py: Function Diff_Indexes() has 6 loops",
+        "spec_diff.py: Function Diff_Indexes() has a maximum nesting depth of 2",
+        "spec_diff.py: Function Diff_Indexes() has high cyclomatic complexity of 27",
+        "spec_diff.py: Function Is_Relevant() has high cyclomatic complexity of 11",
+        "api_matcher.py: Function match() has moderate cyclomatic complexity of 10",
+        "api_matcher.py: Function Check_Call() is 85 lines long",
+        "api_matcher.py: Function Check_Call() has 21 if statements",
+        "api_matcher.py: Function Check_Call() has high cyclomatic complexity of 37",
+        "github_api.py: Function download_files() has moderate cyclomatic complexity of 6",
+        "doc_fetcher.py: Function Fetch_Spec() is 56 lines long",
+        "doc_fetcher.py: Function Fetch_Spec() has high cyclomatic complexity of 15",
+        "doc_fetcher.py: Function _resolve() has a maximum nesting depth of 2",
+        "doc_fetcher.py: Function _resolve() has moderate cyclomatic complexity of 6",
+        "doc_fetcher.py: Function _schema_fields() has moderate cyclomatic complexity of 9",
+        "doc_fetcher.py: Function Build_Endpoint_Index() is 54 lines long",
+        "doc_fetcher.py: Function Build_Endpoint_Index() has a maximum nesting depth of 3",
+        "doc_fetcher.py: Function Build_Endpoint_Index() has high cyclomatic complexity of 11",
+        "Github_Repo_analyzer.py: Function main() has moderate cyclomatic complexity of 6",
+        "code_analyzer.py: Function visit_ImportFrom() has moderate cyclomatic complexity of 7",
+        "code_analyzer.py: Function visit_Module() has a maximum nesting depth of 2",
+        "code_analyzer.py: Function _remember_session() has high cyclomatic complexity of 11",
+        "code_analyzer.py: Function _resolve_string() has high cyclomatic complexity of 14",
+        "code_analyzer.py: Function _resolve_dict() has high cyclomatic complexity of 16",
+        "code_analyzer.py: Function _match_call() has moderate cyclomatic complexity of 7",
+        "code_analyzer.py: Function visit_Call() has high cyclomatic complexity of 12",
+        "code_analyzer.py: Function Normalize_URL() has moderate cyclomatic complexity of 8",
+        "code_analyzer.py: Function Analyze_Sources() is 52 lines long",
+        "code_analyzer.py: Function Analyze_Sources() has a maximum nesting depth of 2",
+        "code_analyzer.py: Function Read_Local_Folder() has a maximum nesting depth of 2",
+        "api_checks.py: Function Run_API_Checks() is 161 lines long",
+        "api_checks.py: Function Run_API_Checks() has 19 if statements",
+        "api_checks.py: Function Run_API_Checks() has 8 loops",
+        "api_checks.py: Function Run_API_Checks() has a maximum nesting depth of 3",
+        "api_checks.py: Function Run_API_Checks() has high cyclomatic complexity of 43",
+        "quality.py: Function Code_Warnings() has a maximum nesting depth of 2",
+        "quality.py: Function Code_Warnings() has high cyclomatic complexity of 13",
+        "quality.py: Function Code_Quality_Score() has 13 if statements",
+        "quality.py: Function Code_Quality_Score() has high cyclomatic complexity of 17",
+        "report.py: Function print_report() is 74 lines long",
+        "report.py: Function print_report() has 8 loops",
+        "report.py: Function print_report() has a maximum nesting depth of 2",
+        "report.py: Function print_report() has high cyclomatic complexity of 13",
+        "report.py: Function print_api_compatibility() has 6 loops",
+        "report.py: Function print_api_compatibility() has a maximum nesting depth of 2",
+        "report.py: Function print_api_compatibility() has high cyclomatic complexity of 13",
+        "report.py: Function Get_HTML_Report() is 107 lines long"
     ],
     "largest_files": [
         [
-            "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py",
-            11416
+            "report.py",
+            12593
         ],
         [
-            "API_SENTINEL-main/REPO_ANALYZER/report.json",
-            11655
+            "doc_fetcher.py",
+            12670
         ],
         [
-            "API_SENTINEL-main/REPO_ANALYZER/__pycache__/code_analyzer.cpython-311.pyc",
-            17624
+            "code_analyzer.py",
+            25033
         ]
     ],
     "unused_imports": [],
     "skipped_files": [],
     "function_complexity": {
-        "API_SENTINEL-main/REPO_ANALYZER/Github_Repo_analyzer.py": {
-            "main": {
+        "spec_diff.py": {
+            "_location": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 2
+            },
+            "Diff_Indexes": {
+                "ifs": 11,
+                "loops": 6,
+                "lines": 61,
+                "max_nesting": 2,
+                "cyclomatic_complexity": 27
+            },
+            "add": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "Is_Relevant": {
+                "ifs": 10,
+                "loops": 0,
+                "lines": 36,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 11
+            },
+            "Changes_For_Call": {
+                "ifs": 2,
+                "loops": 1,
+                "lines": 13,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 5
+            }
+        },
+        "api_matcher.py": {
+            "_tokenize": {
+                "ifs": 3,
+                "loops": 1,
+                "lines": 18,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 5
+            },
+            "_match_score": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 35,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "match": {
+                "ifs": 5,
+                "loops": 2,
+                "lines": 29,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 10
+            },
+            "__init__": {
+                "ifs": 0,
+                "loops": 1,
+                "lines": 10,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 2
+            },
+            "_finding": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 15,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "Header_Value": {
+                "ifs": 2,
+                "loops": 1,
+                "lines": 8,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 4
+            },
+            "Check_Call": {
+                "ifs": 21,
+                "loops": 5,
+                "lines": 85,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 37
+            }
+        },
+        "github_api.py": {
+            "isDir": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 4,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 2
+            },
+            "List_Repo_Files": {
+                "ifs": 3,
+                "loops": 1,
+                "lines": 21,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 5
+            },
+            "Count_Total_Files": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 7,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "Count_File_Types": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "Count_Languages": {
+                "ifs": 1,
+                "loops": 2,
+                "lines": 14,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 4
+            },
+            "Largest_From_Sizes": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "get_largest_files": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "download_files": {
+                "ifs": 3,
+                "loops": 1,
+                "lines": 17,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 6
+            },
+            "Get_Repo_Languages": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            }
+        },
+        "doc_fetcher.py": {
+            "Load_Registry": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 4,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "_now": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "_hours_since": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "Spec_URL": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 4,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 3
+            },
+            "Fetch_Spec": {
+                "ifs": 7,
+                "loops": 0,
+                "lines": 56,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 15
+            },
+            "Parse_Spec": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 8,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 2
+            },
+            "Load_Endpoint_Index": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 27,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 4
+            },
+            "_prune_snapshots": {
+                "ifs": 0,
+                "loops": 1,
+                "lines": 6,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 2
+            },
+            "Load_Index_File": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "_resolve": {
+                "ifs": 1,
+                "loops": 2,
+                "lines": 13,
+                "max_nesting": 2,
+                "cyclomatic_complexity": 6
+            },
+            "_schema_fields": {
+                "ifs": 3,
+                "loops": 2,
+                "lines": 29,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 9
+            },
+            "_request_body": {
                 "ifs": 2,
                 "loops": 0,
-                "lines": 26,
+                "lines": 16,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 4
+            },
+            "Build_Endpoint_Index": {
+                "ifs": 4,
+                "loops": 4,
+                "lines": 54,
+                "max_nesting": 3,
+                "cyclomatic_complexity": 11
+            },
+            "Latest_Version": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 13,
                 "max_nesting": 0,
                 "cyclomatic_complexity": 3
             }
         },
-        "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py": {
+        "Github_Repo_analyzer.py": {
+            "main": {
+                "ifs": 4,
+                "loops": 0,
+                "lines": 38,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 6
+            }
+        },
+        "code_analyzer.py": {
             "ShouldAnalyzeFile": {
                 "ifs": 1,
                 "loops": 0,
@@ -72,23 +362,23 @@
             "__init__": {
                 "ifs": 0,
                 "loops": 0,
-                "lines": 2,
+                "lines": 7,
                 "max_nesting": 0,
                 "cyclomatic_complexity": 1
             },
             "visit_FunctionDef": {
                 "ifs": 0,
-                "loops": 1,
-                "lines": 14,
-                "max_nesting": 1,
-                "cyclomatic_complexity": 2
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
             },
             "visit_AsyncFunctionDef": {
                 "ifs": 0,
-                "loops": 1,
-                "lines": 14,
-                "max_nesting": 1,
-                "cyclomatic_complexity": 2
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
             },
             "visit_ClassDef": {
                 "ifs": 0,
@@ -100,16 +390,16 @@
             "visit_Import": {
                 "ifs": 1,
                 "loops": 1,
-                "lines": 7,
+                "lines": 5,
                 "max_nesting": 1,
-                "cyclomatic_complexity": 3
+                "cyclomatic_complexity": 4
             },
             "visit_ImportFrom": {
                 "ifs": 3,
                 "loops": 1,
-                "lines": 13,
+                "lines": 9,
                 "max_nesting": 1,
-                "cyclomatic_complexity": 5
+                "cyclomatic_complexity": 7
             },
             "visit_If": {
                 "ifs": 0,
@@ -153,12 +443,124 @@
                 "max_nesting": 0,
                 "cyclomatic_complexity": 3
             },
-            "visit_Call": {
-                "ifs": 6,
+            "visit_Module": {
+                "ifs": 2,
+                "loops": 2,
+                "lines": 9,
+                "max_nesting": 2,
+                "cyclomatic_complexity": 5
+            },
+            "_visit_function": {
+                "ifs": 0,
+                "loops": 3,
+                "lines": 14,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 4
+            },
+            "visit_Assign": {
+                "ifs": 1,
+                "loops": 1,
+                "lines": 6,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 3
+            },
+            "visit_AnnAssign": {
+                "ifs": 1,
                 "loops": 0,
-                "lines": 23,
+                "lines": 5,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 3
+            },
+            "visit_AugAssign": {
+                "ifs": 2,
+                "loops": 0,
+                "lines": 7,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 4
+            },
+            "visit_With": {
+                "ifs": 1,
+                "loops": 1,
+                "lines": 5,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 3
+            },
+            "visit_AsyncWith": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "_remember_session": {
+                "ifs": 6,
+                "loops": 1,
+                "lines": 18,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 11
+            },
+            "_lookup": {
+                "ifs": 1,
+                "loops": 1,
+                "lines": 6,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 3
+            },
+            "_resolve_string": {
+                "ifs": 9,
+                "loops": 1,
+                "lines": 34,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 14
+            },
+            "_resolve_dict": {
+                "ifs": 7,
+                "loops": 1,
+                "lines": 31,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 16
+            },
+            "_match_call": {
+                "ifs": 4,
+                "loops": 0,
+                "lines": 31,
                 "max_nesting": 0,
                 "cyclomatic_complexity": 7
+            },
+            "unpack": {
+                "ifs": 2,
+                "loops": 0,
+                "lines": 10,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 3
+            },
+            "_read_keyword": {
+                "ifs": 2,
+                "loops": 0,
+                "lines": 9,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 3
+            },
+            "visit_Call": {
+                "ifs": 5,
+                "loops": 0,
+                "lines": 45,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 12
+            },
+            "URL_Status": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 6,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 2
+            },
+            "Normalize_URL": {
+                "ifs": 5,
+                "loops": 1,
+                "lines": 21,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 8
             },
             "Count_Imports": {
                 "ifs": 0,
@@ -212,63 +614,63 @@
             "Identify_API": {
                 "ifs": 2,
                 "loops": 1,
-                "lines": 15,
-                "max_nesting": 1,
-                "cyclomatic_complexity": 4
-            },
-            "AnalyzeFiles": {
-                "ifs": 1,
-                "loops": 2,
-                "lines": 54,
-                "max_nesting": 2,
-                "cyclomatic_complexity": 4
-            }
-        },
-        "API_SENTINEL-main/REPO_ANALYZER/github_api.py": {
-            "isDir": {
-                "ifs": 1,
-                "loops": 0,
-                "lines": 4,
-                "max_nesting": 0,
-                "cyclomatic_complexity": 2
-            },
-            "Count_Total_Files": {
-                "ifs": 3,
-                "loops": 1,
-                "lines": 25,
-                "max_nesting": 1,
-                "cyclomatic_complexity": 5
-            },
-            "Count_File_Types": {
-                "ifs": 1,
-                "loops": 2,
                 "lines": 16,
                 "max_nesting": 1,
                 "cyclomatic_complexity": 4
             },
-            "get_largest_files": {
-                "ifs": 0,
-                "loops": 0,
-                "lines": 6,
-                "max_nesting": 0,
-                "cyclomatic_complexity": 1
-            },
-            "download_files": {
-                "ifs": 0,
-                "loops": 1,
-                "lines": 11,
-                "max_nesting": 1,
-                "cyclomatic_complexity": 2
-            },
-            "Get_Repo_Languages": {
+            "Is_Fixture": {
                 "ifs": 0,
                 "loops": 0,
                 "lines": 3,
                 "max_nesting": 0,
                 "cyclomatic_complexity": 1
+            },
+            "Analyze_Sources": {
+                "ifs": 1,
+                "loops": 2,
+                "lines": 52,
+                "max_nesting": 2,
+                "cyclomatic_complexity": 5
+            },
+            "AnalyzeFiles": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 4,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "Read_Local_Folder": {
+                "ifs": 1,
+                "loops": 2,
+                "lines": 13,
+                "max_nesting": 2,
+                "cyclomatic_complexity": 4
             }
         },
-        "API_SENTINEL-main/REPO_ANALYZER/quality.py": {
+        "api_checks.py": {
+            "_unverified": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 2
+            },
+            "Run_API_Checks": {
+                "ifs": 19,
+                "loops": 8,
+                "lines": 161,
+                "max_nesting": 3,
+                "cyclomatic_complexity": 43
+            },
+            "get_index": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 10,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 3
+            }
+        },
+        "quality.py": {
             "Code_Warnings": {
                 "ifs": 8,
                 "loops": 4,
@@ -289,29 +691,50 @@
                 "lines": 11,
                 "max_nesting": 0,
                 "cyclomatic_complexity": 1
+            },
+            "API_Warnings": {
+                "ifs": 0,
+                "loops": 1,
+                "lines": 6,
+                "max_nesting": 1,
+                "cyclomatic_complexity": 2
+            },
+            "API_Health_Score": {
+                "ifs": 1,
+                "loops": 0,
+                "lines": 6,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 2
             }
         },
-        "API_SENTINEL-main/REPO_ANALYZER/report.py": {
+        "report.py": {
             "report_info": {
-                "ifs": 0,
+                "ifs": 2,
                 "loops": 0,
-                "lines": 15,
+                "lines": 33,
                 "max_nesting": 0,
-                "cyclomatic_complexity": 1
+                "cyclomatic_complexity": 4
             },
             "print_report": {
                 "ifs": 4,
                 "loops": 8,
-                "lines": 72,
+                "lines": 74,
+                "max_nesting": 2,
+                "cyclomatic_complexity": 13
+            },
+            "print_api_compatibility": {
+                "ifs": 6,
+                "loops": 6,
+                "lines": 42,
                 "max_nesting": 2,
                 "cyclomatic_complexity": 13
             },
             "Get_HTML_Report": {
                 "ifs": 0,
                 "loops": 0,
-                "lines": 59,
+                "lines": 107,
                 "max_nesting": 0,
-                "cyclomatic_complexity": 3
+                "cyclomatic_complexity": 4
             },
             "Get_Json_report": {
                 "ifs": 0,
@@ -320,42 +743,238 @@
                 "max_nesting": 0,
                 "cyclomatic_complexity": 1
             }
+        },
+        "tests/test_api_sentinel.py": {
+            "build_calls": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "setUp": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_finds_every_call_shape": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_traces_url_through_variables": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_reads_body_params_and_headers": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 4,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_parameter_url_is_unresolved": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_request_and_from_import": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_normalize": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_multi_segment_path": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_method_not_allowed": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 2,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_unknown_part_is_ambiguous_not_missing": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 3,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_breaking_changes": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 6,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "run_checks": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 13,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "load_index": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 9,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_findings": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 16,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_upgrade_only_flags_fields_actually_sent": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 5,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            },
+            "test_changes_since_last_run": {
+                "ifs": 0,
+                "loops": 0,
+                "lines": 6,
+                "max_nesting": 0,
+                "cyclomatic_complexity": 1
+            }
         }
     },
     "api_calls": {
-        "API_SENTINEL-main/REPO_ANALYZER/Github_Repo_analyzer.py": [],
-        "API_SENTINEL-main/REPO_ANALYZER/code_analyzer.py": [],
-        "API_SENTINEL-main/REPO_ANALYZER/github_api.py": [
+        "spec_diff.py": [],
+        "api_matcher.py": [],
+        "github_api.py": [
             {
                 "library": "requests",
                 "method": "GET",
                 "url": null,
-                "line": 71,
-                "api": "Unknown API"
-            },
-            {
-                "library": "requests",
-                "method": "GET",
-                "url": "https://api.github.com/repos/{username}/{repository}/contents/{file}",
-                "line": 124,
-                "api": "GitHub"
-            },
-            {
-                "library": "requests",
-                "method": "GET",
-                "url": null,
-                "line": 125,
-                "api": "Unknown API"
+                "url_expression": "github_url_content",
+                "url_status": "unresolved",
+                "line": 78,
+                "query_params": [],
+                "body_fields": [],
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "incomplete": [],
+                "api": "Unidentified"
             },
             {
                 "library": "requests",
                 "method": "GET",
                 "url": null,
-                "line": 131,
-                "api": "Unknown API"
+                "url_expression": "entry['download_url']",
+                "url_status": "unresolved",
+                "line": 141,
+                "query_params": [],
+                "body_fields": [],
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "incomplete": [],
+                "api": "Unidentified"
+            },
+            {
+                "library": "requests",
+                "method": "GET",
+                "url": "{repo_url}/languages",
+                "url_expression": "url_languages",
+                "url_status": "partial",
+                "line": 150,
+                "query_params": [],
+                "body_fields": [],
+                "headers": {
+                    "Authorization": "Bearer {token}"
+                },
+                "incomplete": [],
+                "api": "Unidentified"
             }
         ],
-        "API_SENTINEL-main/REPO_ANALYZER/quality.py": [],
-        "API_SENTINEL-main/REPO_ANALYZER/report.py": []
-    }
+        "doc_fetcher.py": [
+            {
+                "library": "requests",
+                "method": "GET",
+                "url": null,
+                "url_expression": "url",
+                "url_status": "unresolved",
+                "line": 90,
+                "query_params": [],
+                "body_fields": [],
+                "headers": {},
+                "incomplete": [],
+                "api": "Unidentified"
+            }
+        ],
+        "Github_Repo_analyzer.py": [],
+        "code_analyzer.py": [],
+        "api_checks.py": [],
+        "quality.py": [],
+        "report.py": [],
+        "tests/test_api_sentinel.py": []
+    },
+    "api_findings": [],
+    "api_summary": {
+        "total_calls": 4,
+        "checked_calls": 0,
+        "untracked_hosts": {},
+        "unverified": [
+            {
+                "file": "github_api.py",
+                "line": 78,
+                "method": "GET",
+                "url": "github_url_content",
+                "reason": "URL comes from `github_url_content`, which couldn't be traced in this file"
+            },
+            {
+                "file": "github_api.py",
+                "line": 141,
+                "method": "GET",
+                "url": "entry['download_url']",
+                "reason": "URL comes from `entry['download_url']`, which couldn't be traced in this file"
+            },
+            {
+                "file": "github_api.py",
+                "line": 150,
+                "method": "GET",
+                "url": "{repo_url}/languages",
+                "reason": "the start of the URL (the host) couldn't be traced"
+            },
+            {
+                "file": "doc_fetcher.py",
+                "line": 90,
+                "method": "GET",
+                "url": "url",
+                "reason": "URL comes from `url`, which couldn't be traced in this file"
+            }
+        ],
+        "apis": {}
+    },
+    "api_errors": [],
+    "api_health": null
 }

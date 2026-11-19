@@ -59,40 +59,49 @@ langauge_dict = {
 }
 
 
+_listing_cache = {}
+
+
 def isDir(dict_to_check):
         if dict_to_check['type'] == 'dir':
                 return True
         return False
 
-def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
-        file_sizes={}
-        files = ()
+def List_Repo_Files(github_url_content, HEADERS=headers):
+        """Walk the repo once and return [{'path', 'size', 'download_url'}, ...]."""
+        if github_url_content in _listing_cache:
+                return _listing_cache[github_url_content]
 
-        contents = requests.get(github_url_content, headers=HEADERS).json()
+        response = requests.get(github_url_content, headers=HEADERS)
+        contents = response.json()
         if isinstance(contents, dict):
                 message = contents.get('message', 'unexpected response from GitHub')
                 raise RuntimeError(f"GitHub error for {github_url_content}: {message}")
 
-        if len(contents) == 0:
-                return 0, (), {}
-
+        entries = []
         for file in contents:
                 if isDir(file):
                         file_url_content = f"{github_url_content}{file['name']}/"
-                        new_count, new_files, new_size = Count_Total_Files(file_url_content, HEADERS=HEADERS)
-                        count += new_count
-                        files = files + new_files
-                        file_sizes = file_sizes | new_size
+                        entries.extend(List_Repo_Files(file_url_content, HEADERS=HEADERS))
                 else:
-                        count += 1
-                        files = files + (file['path'],)
-                        file_sizes[file['path']] = file['size']
+                        entries.append({'path': file['path'], 'size': file['size'], 'download_url': file.get('download_url')})
 
-        return count, files, file_sizes
+        _listing_cache[github_url_content] = entries
+        return entries
+
+def Count_Total_Files(github_url_content, count=0, HEADERS=headers):
+        entries = List_Repo_Files(github_url_content, HEADERS=HEADERS)
+
+        files = tuple(entry['path'] for entry in entries)
+        file_sizes = {entry['path']: entry['size'] for entry in entries}
+
+        return count + len(files), files, file_sizes
 
 def Count_File_Types(github_url_content, HEADERS=headers):
         _, file_names, _ = Count_Total_Files(github_url_content, HEADERS=HEADERS)
+        return Count_Languages(file_names)
 
+def Count_Languages(file_names):
         language_count = {'other': 0}
         for key, name in langauge_dict.items():
                 language_count[name] = 0
@@ -107,22 +116,29 @@ def Count_File_Types(github_url_content, HEADERS=headers):
 
         return language_count
 
+def Largest_From_Sizes(file_sizes):
+        file_sizes_sorted = dict(sorted(file_sizes.items(), key=lambda item: item[1]))
+        return list(file_sizes_sorted.items())[-3:]
+
 def get_largest_files(github_url_content, HEADERS=headers):
         _, _, file_sizes = Count_Total_Files(github_url_content, HEADERS=HEADERS)
-        file_sizes_sorted = dict(sorted(file_sizes.items(), key=lambda item: item[1]))
-        largest_files = list(file_sizes_sorted.items())[-3:]
+        return Largest_From_Sizes(file_sizes)
 
-        return largest_files
-
-def download_files(github_url_content, HEADERS=headers):
+def download_files(github_url_content, HEADERS=headers, only=None):
+        """Download file contents. The directory listing already includes each
+        file's download_url, so no extra metadata request per file is needed.
+        `only` is an optional function(path) -> bool to skip files we won't analyze."""
         downloaded_files = {}
-        parts = github_url_content.split("/repos/")[1].split("/")
-        username, repository = parts[0], parts[1]
 
-        _, files, _ = Count_Total_Files(github_url_content, HEADERS=HEADERS)
-        for file in files:
-                meta = requests.get(f"https://api.github.com/repos/{username}/{repository}/contents/{file}", headers=HEADERS).json()
-                downloaded_files[file] = requests.get(meta['download_url'], headers=HEADERS).text
+        for entry in List_Repo_Files(github_url_content, HEADERS=HEADERS):
+                if only is not None and not only(entry['path']):
+                        continue
+                if not entry['download_url']:
+                        continue
+                response = requests.get(entry['download_url'], headers=HEADERS)
+                if response.status_code != 200:
+                        raise RuntimeError(f"Could not download {entry['path']} (HTTP {response.status_code})")
+                downloaded_files[entry['path']] = response.text
 
         return downloaded_files
 
